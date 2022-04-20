@@ -1,0 +1,71 @@
+---
+title: "weex跨平台框架学习笔记"
+categories: [ "默认" ]
+tags: [ "weex" ]
+draft: false
+slug: "116"
+date: "2021-10-10 14:00:00"
+---
+
+weex是阿里巴巴在Qcon大会上宣布开源的一套跨平台移动开发工具
+
+
+支持ES6，跨平台，体积小，性能优异，编写规范
+
+官网：http://emas.weex.io/zh/
+
+
+weex调试工具：weexplayground（可以用来测试，要同局域网下）
+
+
+安装
+
+npm install -g weex-toolkit
+
+
+检查weex
+
+weex -v
+
+
+初始化项目
+
+weex init demo
+
+npm install
+
+或者
+
+weex create demo
+
+
+运行
+
+npm run dev
+
+npm run server
+
+
+编译js bundle
+
+weex compile 目录或者文件 打包文件存放的目录或者文件
+
+压缩编译 
+
+weex compile 目录或者文件 打包文件存放的目录或者文件 -m
+
+
+
+注意：Weex目前只支持像素值，不支持相对单位(em、rem)，也不支持百分比，默认设计标准为750px，当真实像素不是750px的时候，会自动将设计标准映射到真实的尺寸中，这个映射比率叫scale，计算公式为：当前屏幕尺寸/750
+
+不支持层 z-index，具体层级叠加根据编写顺序显示，不支持使用border创建三角形
+
+
+运行流程：weex生成js bundle，然后通过网络等等方式将js bundle传递到客户端，在客户端中，weexSDK会在用户打开一个weex页面的时候执行对应的js bundle，然后命令发送到native端进行处理
+
+
+
+
+
+
+

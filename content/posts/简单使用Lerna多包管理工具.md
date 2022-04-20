@@ -1,0 +1,73 @@
+---
+title: "简单使用Lerna多包管理工具"
+categories: [ "默认" ]
+tags: [ "Lerna" ]
+draft: false
+slug: "112"
+date: "2021-09-26 12:50:00"
+---
+
+Lerna是一个基于git和npm来管理多个包工作流的工具（monorepo），解决多个包之间的依赖问题，像React，Vue，Babel都在使用lerna管理多包
+
+
+安装Lerna
+
+npm install --global lerna
+
+新建git仓库（初始化）
+
+git init lerna-demo
+
+初始化Lerna仓库
+
+lerna init
+
+创建新包
+
+lerna create demoPackage
+
+显示全部已经安装的包
+
+lerna list
+
+依赖处理（通过软链接方式将多个package关联起来）
+
+lerna bootstrap
+
+添加包到外层的node_modules
+
+lerna add axios
+
+移除所有packages下的node_modules（不会移除根目录的）
+
+lerna clean
+
+发布package（不会发布标记为private的包）
+
+lerna publish
+
+查看上一次有修改的包的差异
+
+lerna diff
+
+
+
+
+注意：全部子包会放在packages/目录下，lerna.json就是lerna的配置文件
+
+
+
+lerna有两个管理模式，分别是固定模式（默认模式）和独立模式
+
+
+固定模式将全部包版本绑定在一起，如果只更新一个包，将会更新对应包的版本到新的版本号
+
+
+独立模式：init的时候使用--independent参数，独立模式允许对每个库单独改变版本号，每次发布的时候只需要为每个改动的库指定版本号
+
+
+
+
+
+
+
