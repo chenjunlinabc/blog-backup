@@ -31,6 +31,16 @@ pm2 start app.js --watch -i max --ignore-watch="node_modules" --name demo
 
 
 
+pm2执行npm run dev
+
+pm2 start npm --watch  -- run dev
+
+
+
+pm2执行npm run start
+
+pm2 start npm --name demo -- run start
+
 
 
 查看PM2中的进程信息

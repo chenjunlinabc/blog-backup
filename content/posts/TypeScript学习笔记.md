@@ -13,7 +13,13 @@ TypeScript可以增强IDE的交互和反馈，主流IDE都支持TypeScript
 
 TypeScript实质上就是JavaScript的扩展，JavaScript超集
 
-TypeScript本身并不能在浏览器运行，需要进行编译成JavaScript
+TypeScript本身并不能直接在浏览器运行，需要进行编译成JavaScript
+
+TypeScript实质上就是具备静态类型化的JavaScript，TypeScript之父同时也是C#之父
+
+TypeScript默认对变量做静态类型检测工作，来确保变量的类型按照所希望的那样
+
+
 
 
 全局安装typescript
@@ -38,9 +44,29 @@ tsc -v
 npx tsc --init
 
 
-编译TypeScript文件
+编译TypeScript文件（转为正常js文件）
 
 tsc hallo.ts
+
+
+
+在终端中直接运行ts代码
+
+
+
+npm install ts-node -g
+
+
+
+ts-node hallo.ts
+
+
+
+绝大多数的现代IDE都内置支持TypeScript，例如vscode，它就内置了，而且它内置不会影响到手动安装的（隔离）
+
+
+
+
 
 
 
@@ -72,7 +98,13 @@ number数值，例如：
 
 let hallo: number = 123;
 
-二进制和八进制，十进制，十六进制都可以用number类型来表示
+二进制和八进制，十进制，十六进制都可以用number类型来表示，除了number表示数值外，还有bigint（用来表示更大的数值）
+
+let hallo: bigint =  100n;
+
+注意：number类型和bigint类型不兼容，number类型和bigint类型不能互相转换
+
+
 
 
 string字符串
@@ -88,8 +120,15 @@ let a  = 10;
 
 void类型只有两个值，undefined和null
 
-
 undefined类型和null类型是所有类型的子类型
+
+
+
+Symbol
+
+let sym: symbol = Symbol('hallo');
+
+
 
 
 
@@ -99,6 +138,20 @@ Any（当不清楚类型的变量指定一个类型，有可能这个变量的�
 let abc: any =123;
 
 abc = hallo;
+
+
+
+除了any外，还有unknown也可以表示任何类型
+
+
+
+let abc: unknown =123;
+
+abc = hallo;
+
+
+
+unknown和any的区别就是，unknown类型的变量只能赋值给unknow和any类型的变量，在处理类型检查（typeof或者instance）或类型断言（as）之前，是不能对 unknown类型的变量进行操作（例如修改对象属性等等），而且any是没有限制的
 
 
 
@@ -216,8 +269,17 @@ let b: unknown = abc // yes
 
 let c: number = abc // Error
 
-
 unknown类型被确认为某个类型之前，不能被进行函数执行，实例化之类的操作
+
+
+
+不写类型声明也是没有关系的，因为ts会从上下文中推导出类型，例如，上文已经使用该类型，但是下文中使用另一个类型，那么就会导致类型检测不通过了
+
+
+
+ts会在编译阶段自动执行静态类型检测，检查变量的值是否和注解的类型相同，如果相同则检测通过，否则报错
+
+
 
 
 类型断言
@@ -233,6 +295,14 @@ let abc number = (hallo as string).length;
 let hallo any =hallo;
 
 let abc number = (stringhallo).length;
+
+
+
+在ts中，字面量不但可以表示值，还可以表示类型，例如：
+
+ `let nums: 1 = 123`
+
+
 
 
 
@@ -293,7 +363,6 @@ typeof abc === "number"; // tuer
 ---
 
 类型变换模块和命名空间
-
 
 
 

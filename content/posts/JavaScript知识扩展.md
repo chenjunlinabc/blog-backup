@@ -1105,7 +1105,7 @@ Symbol.toPrimitive效果和valueOf()类似，只是优先级比valueOf()高，�
 ===，首先进行判断类型是否相同
 
     undefined==null // true
-
+    
     "0" == false // true
 
 比较
@@ -1196,8 +1196,9 @@ getOwnPropertyDescriptor()：当使用Object.getOwnPropertyDescriptor()获取该
             
             target[property] = value
             console.log(`${property}属性被设置值`, value)
-            
-            
+
+
+​            
         }
     })
     console.log(proxy1.name)
@@ -1284,24 +1285,26 @@ DNS查询优先级：浏览器缓存>hosts>路由器缓存>DNS服务器缓存（
 Chrome浏览器默认缓存60秒，如果之间访问过了该域名，那么在60秒内将不会重新获取DNS缓存，而是直接调用浏览器的DNS缓存，减少DNS查询耗费的时间
 
 开启DNS预解析
-<meta http-equiv="x-dns-prefetch-control" content="on"/> 
+
+`<meta http-equiv="x-dns-prefetch-control" content="on"/> `
 
 尝试对a.cjlio.com域名做预解析（不能用来对当前域名做预解析，因为当得到这个资源时，早就得到当前域名的解析IP）
-<link rel="dns-prefetch" href="https://a.cjlio.com"/> 
+
+`<link rel="dns-prefetch" href="https://a.cjlio.com"/> `
 
 预连接
 
-<link rel="preconnect" href="https://a.cjlio.com">
+`<link rel="preconnect" href="https://a.cjlio.com">`
 
 
 预加载（会提升该资源加载的优先级，加载和执行是不同的，加载完成并不会执行，需要手动执行）
 
-<link rel="preload" as="script" href="./jquery.min.js"/>
-<script src="./jquery.min.js"></script>
+`<link rel="preload" as="script" href="./jquery.min.js"/>`
+`<script src="./jquery.min.js"></script>`
 
 预判加载（会降低该资源加载的优先级，因此只有当空闲时才会加载这个）
 
-<link rel="prefetch" as="script" href="./jquery.min.js">
+`<link rel="prefetch" as="script" href="./jquery.min.js">`
 
 
 HTTP请求优化：解决请求阻塞（请求阻塞（Stalled）是浏览器为了确保访问速度，对同一域名下的资源限制在一定的请求数，超过该请求数就会阻塞）
