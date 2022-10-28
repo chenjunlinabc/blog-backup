@@ -1,6 +1,6 @@
 ---
 title: "css3学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "css" ]
 draft: false
 slug: "11"
@@ -381,27 +381,27 @@ n的值必须要大于等于0，也可以是表达式
 
 例如：
 
-:target{
-background-color: #ccc;
-}
+    :target{
+        background-color: #ccc;
+    }
 
-<p>\<a href="#a">跳转至1</a></p>
+    <p>\<a href="#a">跳转至1</a></p>
 
 ...
 
-<p id="a">1</p>
+    <p id="a">1</p>
 
 或者
 
-p::selection:{
-background-color: #ccc;
-}
+    p::selection:{
+        background-color: #ccc;
+    }
 
-<p>xxx</p>
+    <p>xxx</p>
 
 ...
 
-<p>xxx</p>
+    <p>xxx</p>
 
 
 ::first-line：选择第一行
@@ -410,24 +410,22 @@ background-color: #ccc;
 
 例如：
 
-div{
-width: 100px;
-height: 100px;
-}
-div::first-line{
-background-color: #ccc;
-}
-div::first-letter{
-background-color: #000;
-}
+    div{
+        width: 100px;
+        height: 100px;
+    }
+    div::first-line{
+        background-color: #ccc;
+    }
+    div::first-letter{
+        background-color: #000;
+    }
 
-<div>
-sjdasfkdskbdsalkddsfjdslsakfbsdlss
-
-
-xxx
-test
-</div>
+    <div>
+        sjdasfkdskbdsalkddsfjdslsakfbsdlss
+        xxx
+        test
+    </div>
 
 
 
@@ -539,11 +537,14 @@ border-image-repeat
 ## 
 
 引入css
-内联css：<div style="color: #fff"> // 要写在开始标签中
+内联css：
+    <div style="color: #fff"></div> // 要写在开始标签中
 
-嵌入css：<style type="text/css">div{color: #fff;}</style>
+嵌入css：
+    <style type="text/css">div{color: #fff;}</style>
 
-外部css: <link href= "main.css" rel="stylesheet" type="text/css">
+外部css: 
+    <link href= "main.css" rel="stylesheet" type="text/css">
 
 优先级：内联 > 嵌入 > 外部
 
@@ -551,14 +552,14 @@ border-image-repeat
 ---
 选择器
 
-标签选择器：div{}
-id选择器：#main{}  <div id="main">
-类选择器：.main{}  <div class = "main">
-子选择器：.main>div{}
-后代选择器：.main div{}
-通用选择器：*{}
-伪类选择器：a:{}
-分组选择器：div,span{}
+    标签选择器：div{}
+    id选择器：#main{}  <div id="main">
+    类选择器：.main{}  <div class = "main">
+    子选择器：.main>div{}
+    后代选择器：.main div{}
+    通用选择器：*{}
+    伪类选择器：a:{}
+    分组选择器：div,span{}
 
 
 
@@ -584,26 +585,37 @@ div{color:#fff!important;}
 ---
 
 样式
+
 字体font-family
 div{font-family:"Microsoft Yahei";}
+
 字体大小font-size
 div{font-size:16px;}
+
 字体粗细font-weight
 div{font-weight:bold;}
+
 字体样式font-style
 div{font-style:normal;}
+
 字体颜色color
 div{color:#fff;}
+
 文本样式text-decoration
 div{text-decoration:none;}
+
 文本首行缩进text-indent
 div{text-indent:2em;}
+
 文本行间间距line-height
 div{line-height:2em;}
+
 增加或减少每一个文字的间距 letter-spacing
 div{letter-spacing:10px;}
+
 增加或减少每个英文单词之间的间距word-spacing
 div{word-spacing:10px;}
+
 文本对齐方式text-align
 div{text-align:center;}
 
@@ -1210,7 +1222,7 @@ transform-style属性用于是否保留3d位置保留
 css强制换行，避免文本溢出容器
 
 
-white-space: pre-wrap;
+    white-space: pre-wrap;
 
 
 normal：默认，空白被忽略
@@ -1232,40 +1244,40 @@ filter属性滤镜
 
 背景为黑白
 
-filter: grayscale(100%);
+    filter: grayscale(100%);
 
 
 高斯模糊
 
-filter: blur(3px);
+    filter: blur(3px);
 
 亮度
 
-filter: brightness(160%);
+    filter: brightness(160%);
 
 对比度
 
-filter: contrast(160%);
+    filter: contrast(160%);
 
 透明度
 
-filter: opacity(30%);
+    filter: opacity(30%);
 
 饱和度
 
-filter: saturate(300%);
+    filter: saturate(300%);
 
 阴影
 
-filter: drop-shadow(5px 5px 6px #ccc);
+    filter: drop-shadow(5px 5px 6px #ccc);
 
 色相旋转
 
-filter: hue-rotate(30deg);
+    filter: hue-rotate(30deg);
 
 颠倒输入
 
-filter: invert(30%);
+    filter: invert(30%);
 
 
 
@@ -1277,21 +1289,21 @@ filter: invert(30%);
 表格布局（现在很少用，一般都是用div+css）
 
 该元素会作为块级表格（例如table标签，有换行）
-display: table;
+    display: table;
 
 内联表格（没换行）
-display: inline-table;
+    display: inline-table;
 
 表格行（例如tr）
-display: table-row;
+    display: table-row;
 
 表格单元格（例如td）
-display: table-cell;
+    display: table-cell;
 
 表格标题
-display: table-caption;
+    display: table-caption;
 
 单元格列
-display: table-column;
+    display: table-column;
 
 

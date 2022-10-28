@@ -1,6 +1,6 @@
 ---
 title: "HTML全局属性笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "html" ]
 draft: false
 slug: "22"
@@ -13,7 +13,7 @@ accesskey
 
 定义快捷键获取焦点，例如
 
-\<a href="https://cjlio.com" accesskey="q">GO\</a>
+    <a href="https://cjlio.com" accesskey="q">GO\</a>
 
 按ait+q，就会跳到指定的网页上
 
@@ -25,7 +25,7 @@ class
 
 定义元素的类，开头必须是字母，多个类使用空格隔开，例如
 
-<div class = "a1 a2 a3"><div>
+    <div class = "a1 a2 a3"></div>
 
 ---
 
@@ -33,7 +33,7 @@ id
 
 定义一个id，id为唯一性，不能重复，例如
 
-<div id = "a1"><div>
+    <div id = "a1"></div>
 
 ---
 
@@ -41,7 +41,7 @@ lang
 
 定义网页或者元素的语言，例如
 
-<div lang = "fr"><div>
+    <div lang = "fr"></div>
 
 ---
 
@@ -49,7 +49,7 @@ style
 
 定义元素的行内样式，例如
 
-<div style="color : #fff">hi<div>
+    <div style="color : #fff">hi</div>
 
 
 ---
@@ -58,7 +58,7 @@ tabindex
 
 指定tab键的焦点控制，例如
 
-\<a href="https://cjlio.com" tabindex="1">GO</a>
+    <a href="https://cjlio.com" tabindex="1">GO</a>
 
 使用键盘的tab键盘，触发（不会跳转到网页，只是焦点）
 
@@ -70,7 +70,7 @@ contenteditable
 
 指定元素是否为可以编辑的，例如
 
-<div contenteditable="true">hi</div>
+    <div contenteditable="true">hi</div>
 
 
 ---
@@ -79,7 +79,7 @@ dir
 
 指定元素内文本的方向，例如
 
-<div dir = "rtl">hi</div>
+    <div dir = "rtl">hi</div>
 
 ltr默认值，从左到右
 
@@ -92,7 +92,7 @@ title
 
 指定元素的信息，一般为鼠标移动到元素是停留一段时间，显示信息，例如
 
-<div title = "hi">hi</div>
+    <div title = "hi">hi</div>
 
 
 ---
@@ -114,7 +114,7 @@ draggable
 
 有3个可选值，true/false/auto，在JavaScript中可以配合拖动事件，例如
 
-<div draggable = "true">hi</div>
+    <div draggable = "true">hi</div>
 
 
 ---
@@ -124,7 +124,7 @@ hidden
 指定元素是否隐藏，有两个可选值，hidden/true，例如
 
 
- <div hidden = "hidden">hi</div>
+    <div hidden = "hidden">hi</div>
 
 
 ---

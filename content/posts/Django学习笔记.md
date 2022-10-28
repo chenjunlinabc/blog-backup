@@ -52,7 +52,7 @@ loaddata # 文件数据导入数据库
 
 django-admin startproject django_demo
 
-settings.py是django项目的配置文件，urls.py是django项目的路由文件，wsgi.py是django作为wsgi应用的配置文件，manage.py是django项目的管理文件
+settings.py是django项目的配置文件，urls.py是django项目的路由文件，wsgi.py是django作为wsgi应用的配置文件（wsgi，全成web server gateway interface，这个文件用来部署应用服务器），manage.py是django项目的管理文件，__init__.py是Django项目的包初始化文件
 
 
 wsgi：Web服务器网关接口（Python Web Server Gateway Interface，缩写为WSGI）是为Python语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口。（来自百度百科）
@@ -60,7 +60,9 @@ wsgi：Web服务器网关接口（Python Web Server Gateway Interface，缩写�
 
 运行django项目
 
-python .\manage.py runserver
+python .\manage.py runserver 0.0.0.0:8000
+
+访问127.0.0.1:8000
 
 
 ---
@@ -91,6 +93,12 @@ models.py #定义应用模型配置文件
 views.py #视图处理配置文件
 
 urls.py # 管理应用路由的配置文件，因为应用也可以管理路由，不过需要自己创建
+
+
+django应用用法：
+
+修改settings.py，找到INSTALLED_APP，添加"django_app"（用于挂载该应用），找到TEMPLATES下的DIRS，添加os.path.join(BASE_DIR, "templates")，（用于加载模板文件），找到ALLOWED_HOSTS，修改为ALLOWED_HOSTS = ['*']，（让外界可访问到后台站点）
+
 
 
 
@@ -125,6 +133,9 @@ views.py
     urlpatterns = [
         path("hallo",django_app.views.hallo)
     ]
+
+
+上面例子中，访问/abc将触发一个应用级路由，该应用路由的返回值为该应用的views.py下的hallo函数
 
 
 另外到settings.py中添加应用

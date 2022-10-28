@@ -113,15 +113,15 @@ prop类型
 
 可以在组件中写属性，例如：
 
-template: \`<div class="main"><div>\`
+    template: \`<div class="main"></div>\`
 
 同样也是可以在组件写事件监听器之类的
 
 
 禁用属性继承
 
-inheritAttrs: false,
-template: \`<div class="main"><div>\`
+    inheritAttrs: false,
+    template: \`<div class="main"></div>\`
 
 包含未被props接收的参数
 
@@ -129,9 +129,9 @@ this.$attrs
 
 可以根据需求来传入属性，例如：
 
-<test class="data"></test>
+    <test class="data"></test>
 
-<div :class="$attrs.class"></div>
+    <div :class="$attrs.class"></div>
 
 
 ---

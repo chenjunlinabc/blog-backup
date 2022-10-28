@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes学习笔记"
-categories: [ "默认" ]
-tags: [ "k8s" ]
+categories: [ "学习" ]
+tags: [ "k8s","Kubernetes" ]
 draft: false
 slug: "127"
 date: "2022-01-10 12:31:00"
@@ -67,13 +67,79 @@ kubeadm是k8s部署工具，用于快速部署k8s集群
 
 官方文档：https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
+kubeadm安装
+
+安装必备软件
+
+apt install -y apt-transport-https ca-certificates curl
+
+
+添加k8s国内源
+
+sudo tee /etc/apt/sources.list.d/kubernetes.list <<-'EOF'
+deb https://mirrors.tencent.com/kubernetes/apt/ kubernetes-xenial main
+EOF
+
+添加签名
+
+gpg --keyserver keyserver.ubuntu.com --recv-keys 836F4BEB
+gpg --export --armor 836F4BEB | sudo apt-key add -
+apt update
+
+836F4BEB这个为NO_PUBKEY的后8位
+
+安装三件套
+
+apt install -y kubelet kubeadm kubectl
+
+
 创建master节点
 
 kubeadm init
 
 将node节点添加到当前集群中
 
-kubeadm join master节点ip和端口
+kubeadm join master节点ip和端口 --token 令牌
+
+默认令牌有效期24小时，过期要重新生成
+
+查看默认令牌
+
+kubeadm token create --print-join-command
+
+生成新的令牌
+
+kubeadm token create
+
+查看存在的node节点
+
+kubectl get nodes
+
+安装flannel（刚开始的状态是NotReady，需要安装flannel网络插件来联网）
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+
+
+删除node节点
+
+kubectl delete node node1
+
+k8s节点名称默认根据主机名命名
+
+
+拉取第一个镜像，并且启动该镜像，并且对外暴露容器内部的80端口
+
+kubectl create deployment nginx --image=nginx --port=80
+
+使用kubectl get pod 查看容器的状态，如果status为running表示已经启动
+
+
+通过kubectl get pod,svc 查看对外暴露的端口
+
+通过 kubectl describe deployment nginx 查看该容器的详细信息
+
+
 
 
 这边使用的是ubuntu-20.04-live-server-amd64，虚拟机（网络连接方式为桥接）
@@ -104,8 +170,6 @@ vim /etc/apt/sources.list
     # 预发布软件源，不建议启用
     # deb https://mirrors.cloud.tencent.com/ubuntu/ focal-proposed main restricted universe multiverse
     # deb-src https://mirrors.cloud.tencent.com/ubuntu/ focal-proposed main restricted universe multiverse
-
-
 
 
 apt update
@@ -168,57 +232,6 @@ sudo timedatectl set-timezone Asia/Shanghai
 sudo timedatectl set-local-rtc 0
 
 (Kubernetes从v1.20版本开始弃用Docker)
-
-
-安装docker
-
-配置docker
-
-添加docker官方GPGkey
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
-sudo apt-key fingerprint 0EBFCD88
-
-安装依赖
-
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
-
-设置docker仓库
-
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-重新加载源
-
-sudo apt update
-
-如果报错，可以手动在/etc/apt/source.list添加
-
-deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
-
-sudo apt dist-upgrade（智能处理包依赖，会自己安装新软件或者删除原有软件包来完成升级）
-
-安装docker
-
-sudo apt install docker-ce docker-ce-cli containerd.io
-
-添加k8s国内源
-
-sudo tee /etc/apt/sources.list.d/kubernetes.list <<-'EOF'
-deb https://mirrors.tencent.com/kubernetes/apt/ kubernetes-xenial main
-EOF
-
-添加签名
-
-gpg --keyserver keyserver.ubuntu.com --recv-keys 836F4BEB
-gpg --export --armor 836F4BEB | sudo apt-key add -
-apt update
-
-836F4BEB这个为NO_PUBKEY的后8位
-
-安装kubeadm
-
-apt install kubeadm
 
 
 

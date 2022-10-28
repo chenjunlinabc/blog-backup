@@ -1,6 +1,6 @@
 ---
 title: "PostCSS学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "PostCSS" ]
 draft: false
 slug: "129"

@@ -1,6 +1,6 @@
 ---
 title: "gulp学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "Gulp" ]
 draft: false
 slug: "73"

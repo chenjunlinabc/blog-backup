@@ -1,6 +1,6 @@
 ---
 title: "python基础语法笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "Python" ]
 draft: false
 slug: "28"
@@ -678,3 +678,306 @@ str为要查找的字符串，beg开始查找的位置，end结束查找的位�
         print('文件没有找到,请检查文件名称是否正确')
 
 try...except语句可以处理程序运行过程中可能出现的异常
+
+
+
+---
+
+面向对象
+
+    class ClassName():
+        'test 定义类'
+        name = 'hallo'
+        age = 20
+        def abc(self): # 实例方法
+            print(self.name)
+            print(self.age)
+        
+    className = ClassName() # 实例化类
+    className.abc() # 调用类的方法
+
+导入类
+
+    from hallo import ClassName
+    className = ClassName() # 实例化类
+    className.abc() # 调用类的方法
+
+
+构造函数
+
+    class ClassName():
+        name = 'hallo'
+        age = 20
+        def __init__(self, name，age):
+            self.name = name
+            self.age = age
+
+    a = ClassName('hahaha', 18)
+    b = ClassName('abc', 100)
+    print(a.name)
+    print(a.__dict__)
+    print(b.name)
+    print(ClassName.name)
+
+
+    class ClassName():
+        name = 'hallo'
+        age = 20
+        sum = 0
+        def __init__(self, name，age):
+            self.name = name
+            self.age = age
+            self.__class__.sum += 1 # 每调用一次构造函数就触发+1
+            print(self.__class.sum)
+
+
+类方法
+
+    class ClassName():
+        sum = 0
+        @classmethod
+        def Sum(cls):
+            cls.sum += 1
+            print(cls.sum)
+            
+    ClassName.Sum()
+
+
+静态方法
+
+    class ClassName():
+        ＠staticmethod
+        def hallo(name, pass):
+            print(name,pass)
+            
+    ClassName.hallo('hallo','123456')
+    abc = ClassName()
+    abc.hallo('hhhhh','666123')
+
+
+类的成员的公开性与私有性
+
+
+    class ClassName():
+        name = 'hallo'
+        age = 20
+        __pass = ''
+        def __abc(self): # 给类的成员开头加上__将表示该成员是私有的，无法在类外部使用
+            print(self.name)
+            print(self.age)
+
+注意: 如果前后都有__，则表示公开的，如构造函数__init__，只有开头有__才是私有的，默认是公开的
+
+Python提供一种私有保护机制，当在类外部使用时，Python会将其认为是全新的，私有的是无法被更改的，例如：
+
+    class ClassName():
+        name = 'hallo'
+        age = 20
+        __pass = '123'
+        def abc(self):
+            print(self.name)
+            print(self.age)
+
+    classname = ClassName()
+    classname.__pass = '123456'
+    print(classname.__dist__)
+    print(classname._classname__pass) # 实质是访问类里面的私有__pass
+
+可以看到原来的__pass变成了_classname__pass这个全新的名称，而显示__pass是新的'12345'
+
+
+类的继承
+
+
+    class ClassName():
+        def __init__(self):
+            self.a = 123
+            self.b = 666
+        def hhh(self):
+            print('hallo word')
+        def gogo(self):
+            print('hallo abc')
+    class Hallo(ClassName):
+        def __init__(self):
+            super().__init__() # 调用父类的__init__，当子类重写的父类的方法后，还想调用父类原来的方法，可使用super()，该语句块实质上也是在重写的父类的__init__方法，因此需要在子类的__init__调用父类原来的__init__
+        def abc(self):
+            return self.a + self.b # 继承父类的属性
+        def gogo():
+            print('hallo python') # 重写父类的gogo方法
+   hallo = Hallo()
+   hallo.hhh # 调用父类的hhh方法
+   hallo.a # 调用父类的属性
+
+
+
+---
+
+
+
+
+
+正则表达式
+
+判断某个字符串中是否存在某个字符
+
+    import re
+    abc = "hallo word"
+    xyz = re.findall("hallo",abc)
+    if len(xyz) > 0:
+        print("字符串包含hallo")
+    else:
+        print("字符串不包含hallo")
+
+
+筛选出某个字符串中存在的数值
+
+    import re
+    abc = "0hallo1 word2"
+    xyz = re.findall('\d',abc)
+    print(xyz)
+
+
+\d是元字符，\d也是概括字符集，\d可以使用[0-9]实现相同的效果
+
+
+字符集
+
+
+    import re
+    abc = "aha, aca, ada, aaa, aea"
+    xyz = re.findall('a[ha]a',abc)
+    // xyz = re.findall('a[^ha]a',abc) // aea，^是取反
+    // xyz = re.findall('a[c-e]a',abc) // aca，ada，aea，c-e表示c，d，e
+    print(xyz) // aha和aaa
+
+
+
+数量词
+
+
+    import re
+    abc = "hallo word hhhhhh"
+    xyz = re.findall('[a-z]{3,6}',abc) // 数量词使用{}包括，3,6表示匹配3到6个字符
+    print(xyz)
+
+
+
+贪婪与非贪婪
+
+
+匹配会最大匹配，像上面的数量词的例子，hallo并没有因为3而匹配hal，而是最大匹配，直到匹配的字符不符合才停止，这就是贪婪匹配
+
+
+    import re
+    abc = "hallo word hhhhhh"
+    xyz = re.findall('[a-z]{3,6}?',abc)
+    print(xyz)
+
+上面的例子就是非贪婪的，匹配会最小匹配
+
+
+
+匹配0次或无限次
+
+
+    import re
+    abc = "aba abcc abccd abc"
+    xyz = re.findall('abc*',abc)
+    print(xyz)
+
+匹配1次或无限次
+
+    import re
+    abc = "aba abcc abccd abc"
+    xyz = re.findall('abc+',abc)
+    print(xyz) // abcc，abccd，abc
+
+匹配0次或1次
+
+    import re
+    abc = "aba abcc abccd abc"
+    xyz = re.findall('abc?',abc)
+    print(xyz) // abc abc abc
+
+
+边界匹配符
+
+由于匹配只针对最小匹配，最大匹配无效，例如
+
+    import re
+    abc = "123456789"
+    xyz = re.findall('\d{3,6}',abc)
+    print(xyz) // 123456，明明不符合6，但是还是输出了
+
+
+边界匹配符就是解决这个问题的
+
+
+    import re
+    abc = "123456789"
+    xyz = re.findall('^\d{3,6}$',abc) // ^表示该位置开始匹配，$表示该位置结束匹配
+    print(xyz) 
+
+
+组
+
+    import re
+    abc = "abc abc xyz hallo abc abc xyz word"
+    xyz = re.findall('(abc)(xyz)',abc)
+    print(xyz) 
+
+
+
+json反序列化（json字符串转python字典）
+
+    import json
+    abc = '{"name": "admin", "pass":"abc123"}'
+    xyz = json.loads(abc)
+    print(type(xyz))  // dict字典
+    print(xyz) 
+    print(xyz['name']) 
+    print(xyz['pass']) 
+
+
+
+
+json序列化（python字典转json字符串）
+
+    import json
+    abc = [
+        {"name": "admin", "pass":"abc123"},
+        {"name": "root", "pass":"1234567"}
+    ]
+    xyz = json.dumps(abc)
+    print(type(xyz)) // str字符串
+    print(xyz) 
+
+
+
+---
+
+
+
+
+
+枚举
+
+    from enum import Enum
+    class ABC(Enum):
+        ID = 1
+        USER = 2
+        PASS = 3
+    print(ABC.ID)
+    print(type(ABC.ID)) // ABC类型
+    print(ABC.ID.name) // 枚举名称
+    print(ABC.ID.value) // 枚举值
+    print(ABC.ID == ABC.USER) // 枚举的比较，不支持大小比较，只支持等值比较
+    print(ABC.ID in ABC.USER)
+    for i in ABC.__members__.items():
+        print(i) // 遍历枚举名称和值，如果只要枚举名称，则去掉.items()
+
+
+枚举和类的区别：枚举值不可变，枚举具备防止枚举名称重复的功能
+
+
+

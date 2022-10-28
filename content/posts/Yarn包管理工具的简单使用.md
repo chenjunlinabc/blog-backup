@@ -1,6 +1,6 @@
 ---
 title: "Yarn包管理工具的简单使用"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "Yarn" ]
 draft: false
 slug: "38"
@@ -49,9 +49,11 @@ yarn policies set-version berry
 yarn init 
 
 
-安装一个包
+安装一个包（安装package.json里的包依赖，并且将依赖树写入到yarn.lock）
 
 yarn install
+
+或者
 
 yarn
 
@@ -155,6 +157,25 @@ yarn set version from sources --branch 1211
 
 yarn run dev
 
+
+
+---
+
+
+yarn.lock和package-lock.json互相转换
+
+
+安装synp
+
+    npm install -g synp
+
+yarn.lock转换为package-lock.json
+
+    synp --source-file yarn.lock
+
+package-lock.json转换为yarn.lock
+
+    synp --source-file package-lock.json
 
 
 

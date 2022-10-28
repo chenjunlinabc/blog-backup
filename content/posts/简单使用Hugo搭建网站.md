@@ -1,6 +1,6 @@
 ---
 title: "简单使用Hugo搭建网站"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "golang","Hugo" ]
 draft: false
 slug: "137"

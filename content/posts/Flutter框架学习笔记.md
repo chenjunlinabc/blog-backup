@@ -1,6 +1,6 @@
 ---
 title: "Flutter框架学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "Flutter" ]
 draft: false
 slug: "141"
@@ -168,8 +168,265 @@ deactivate：该钩子在组件被移除节点后会被调用，如果没有插�
 dispose：永久移除该组件，释放组件资源，一个组件的生命终点
 
 
+在无状态组件中，执行阶段中只有build，也只会执行build函数钩子，因此执行和效率比有状态组件好
+
+注意：当动态组件更新时，将导致其子组件更新，导致性能问题
+
+常见组件：
+
+
+Text: 渲染文本组件
+
+Image :图片显示组件
+
+Icon : Icon库组件
+
+AppBar：页面导航条组件
+
+Row: 布局组件，使子元素在水平方横向布局
+
+Column: 布局组件，使子元素在水平方向纵向布局
+
+Container: 容器组件
+
+Expanded：控制flex布局的占位（用在row或者column组件内部）
+
+Stack：层叠布局组件，在当前组件层叠另一层（和css的z-index类似）
+
+FadeInImage：加载时的占位组件
+
+Padding：填充空白区域组件，和css的padding效果类似
+
+ClipRRect：圆角组件，可将子组件处理成圆边角
+
+
+
+Text组件，它有TextAlign属性，maxLines属性，overflow属性，style属性
+
+TextAlign属性就是定义文本对齐方式的，例如：
+
+    child:Text(
+        'hallo word',
+        textAlign:TextAlign.center,
+    )
+
+left左，center居中，right右
+
+maxLines属性是定义文本显示的最大行数数，例如：
+
+    child:Text(
+        'hallo word',
+        textAlign:TextAlign.center,
+        maxLines: 1,
+    )
+
+overflow属性是定义文本溢出时的处理方式，例如：
+
+    child:Text(
+        'hallo word',
+        textAlign:TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+    )
+
+注意：Text组件是没有宽度的，文本会撑开Text组件，因此还需要搭配Container组件使用，例如：
+
+    Container(
+        width: 10,
+        child: Text(
+            "hallo wordhallo wordhallo wordhallo wordhallo wordhallo word",
+            textAlign: TextAlign.left,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+        ),
+    ),
+
+
+style属性可以理解成Flutter组件的css（实质上效果都类似css），例如：
+
+    child:Text(
+        'hallo word',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 20.0, // 字体大小20
+            color: Colors.red, // 字体颜色为红色
+            decoration: TextDecoration.underline, // 文本下划线
+        ),
+    )
 
 
 
 
+Container组件，有Alignment属性，padding属性，margin属性和decoration属性
 
+Container组件宽度和高度，以及颜色可直接通过width和height属性，color属性来定义
+
+Alignment属性：该属性是定义Container组件的内容的对齐方式，例如：
+
+    child:Container(
+        child:new Text('hallo word',style: color: Colors.red,),
+        lignment: Alignment.center,
+    ),
+
+
+该属性可设置头部对齐方式，底部对齐方式，水平对齐方式，例如topCenter，center，bottomCenter
+
+padding属性：该属性定义Container组件边缘和子内容的距离，和css的内边距类似，例如：
+
+    child:Container(
+        child:new Text('hallo word',style: color: Colors.red,),
+        lignment: Alignment.center,
+        padding:const EdgeInsets.all(20.0), // 上下左右边距都为20
+    ),
+
+
+如果想单独设置，可padding:const EdgeInsets.fromLTRB(10.0,20.0,30.0,40.0),
+
+这4个值分别表示左，上，右，下
+
+
+margin属性，自然是定义外边距的，例如margin: const EdgeInsets.all(20.0),
+
+decoration属性，用于定义背景，边框，例如：
+
+    child:Container(
+        child:new Text('hallo word',style: color: Colors.red,),
+        lignment: Alignment.center,
+        padding:const EdgeInsets.all(20.0), // 上下左右边距都为20
+        decoration:new BoxDecoration(
+            gradient:const LinearGradient(
+                colors:[
+                    Colors.red, // 红色到黑色的渐变
+                    Colors.black,
+                ]
+            ),
+            border:Border.all(width:3.0,color:Colors.black) // 黑色边框，边框宽度为3
+        ),
+    ),
+
+
+
+Image组件，加载图片有4种方式，分别为：
+
+Image.asset 加载项目内图片（相对）
+Image.file 加载本地图片（绝对）
+Image.memory 加载Uint8List资源图片
+Image.network 加载网络图片
+
+加载网络图片，例如：
+            
+    child:new Image.network(
+        'http://cjlio.com/1.jpg',
+    ),
+
+
+加载本地（或者项目）内图片，例如：
+
+    child:new Image.file(
+        File("./1.jpg")
+    )
+
+Image组件的ImageRepeat属性和fit属性
+
+ImageRepeat属性可设置图片重复，例如铺满整个容器，fit属性可设置图片的拉伸和挤压，例如：全图显示，拉伸填满整个容器
+
+例子：
+
+
+    child:new Image.network(
+        'http://cjlio.com/1.jpg',
+        // ImageRepeat: ImageRepeat.repeat // 横向和纵向重复，直到填满容器
+        fit: BoxFit.contain // 显示原比例图片
+    ),
+
+
+ImageRepeat.repeat: 横向和纵向重复，填满整个容器
+ImageRepeat.repeatX: 横向重复，纵向不重复
+ImageRepeat.repeatY：纵向重复，横向不重复
+
+
+
+BoxFit.fill: 图片拉伸，并填满父容器。
+BoxFit.contain: 显示原比例图片
+BoxFit.cover：可能拉伸，裁切（图片填满整个容器，但是不变形）
+BoxFit.fitWidth：宽度充满（横向填满），图片可能拉伸，裁切
+BoxFit.fitHeight ：高度充满（竖向填满）,图片可能拉伸，裁切
+BoxFit.scaleDown：显示原比例图片，但是此属性不允许超过源图片大小
+
+
+
+Row组件：水平布局组件，该组件又分为灵活布局和非灵活布局
+
+灵活布局：使用Expanded（类似于flex效果），解决非灵活布局的空余或者溢出的情况
+
+非灵活布局：当子元素不足填满时，会有空余位置，当子元素溢出位置了，会警告
+
+例如：
+
+
+    body: Row(
+        children: <Widget>[
+            Expanded(
+                flex: 1,
+                child: Container(
+                    Colors.black,
+                ),
+            ),
+            Expanded(
+                flex: 2,
+                child: Container(
+                    Colors.red,
+                ),
+            ),
+        ]   
+    )
+
+
+Column组件：垂直布局组件，例如：
+
+
+
+    body: Column(
+        children: <Widget>[
+            Text('hallo word'),
+            Text('chenjunlinabc'),
+        ],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+    ),
+
+
+
+
+CrossAxisAlignment.star：向左对齐
+CrossAxisAlignment.end：向右对齐
+CrossAxisAlignment.center：居中对齐
+
+
+Row和Column组件都存在主轴（main）和纵轴（Cross）
+
+主轴（main）：在Row组件中水平就是主轴，在Column组件中垂直就是主轴，
+
+纵轴（Cross）：和主轴（main）相反，在Row组件中垂直就是纵轴，在Column组件中水平就是纵轴
+
+
+
+Stack组件
+
+    Stack(
+        children: <Widget>[
+            Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+            ),
+            Container(
+                width: 50,
+                height: 50,
+                color: Colors.black,
+            ),
+        ],
+    ),
+
+
+可以看到上面的两个子组件相交在一起了，Stack组件一样有Alignment属性，来表示对齐方式

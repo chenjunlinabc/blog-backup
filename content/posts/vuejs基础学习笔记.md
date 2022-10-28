@@ -1,6 +1,6 @@
 ---
 title: "vuejs基础学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "vuejs" ]
 draft: false
 slug: "23"
@@ -221,7 +221,7 @@ v-for可以多次渲染元素，例如：
     </script>
 
 
-注意：当v-for和v-if出现在同级时，v-for优先级比v-if高，因此不要在v-for下，使用v-if过滤，应该在v-if下使用v-for，v-if应该使用<template>（<template>不会创建dom元素）
+注意：当v-for和v-if出现在同级时，v-for优先级比v-if高，因此不要在v-for下，使用v-if过滤，应该在v-if下使用v-for，v-if应该使用\<template>（\<template>不会创建dom元素）
 
 
 
@@ -756,7 +756,7 @@ vue会自动为methods绑定this，使其始终指向组件实例
 
 methods一样可以在组件模板中暴露，也可以在模板中用做事件监听
 
-<div @click="alinkclick"></div>
+    <div @click="alinkclick"></div>
 
 ---
 
@@ -922,7 +922,7 @@ vue也是允许在数组中使用对象来处理
     </script>
 
 
-上面只有<div>vuejs</div>接收到class
+上面只有\<div>vuejs\</div>接收到class
 
 ---
 
@@ -999,7 +999,9 @@ v-for支持index参数，即当前的索引，例如：
 
 
 
-in可以用of替代<div v-for="(item,index) of items">
+in可以用of替代
+
+    <div v-for="(item,index) of items">
 
 v-for也可以使用对象(从某个角度来看，数组也是对象的一种)，例如：
 
@@ -1029,7 +1031,7 @@ vue在渲染元素时，如果数据的顺序发生改变，vue是不会将dom�
 
 v-for也支持整数
 
-<div v-for="a in 6" :key="a"></div>
+    <div v-for="a in 6" :key="a"></div>
 
 和遍历一样，会重复对应的次数
 
@@ -1039,7 +1041,9 @@ v-for也支持整数
 事件处理
 
 
-一般用v-on进行监听事件，例如：<div v-on:click="boom"></div>
+一般用v-on进行监听事件，例如：
+
+    <div v-on:click="boom"></div>
 
 多个事件用逗号,分开
 
@@ -1101,7 +1105,7 @@ v-for也支持整数
 
 例如：
 
-<input @keydown.enter="submit" />
+    <input @keydown.enter="submit" />
 
 上面只要触发一个要求就会被触发
 
@@ -1228,8 +1232,8 @@ v-model可以用于数据的双向绑定，但是v-model会忽略表单元素的
 true-value和false-value可以在被选中或者取消选中时触发，例如：
 
 
-data: {{datas}}
-<input type="checkbox" v-model.lazy="datas" true-value="halloword" false-value="hahahah"/>
+    data: {{datas}}
+    <input type="checkbox" v-model.lazy="datas" true-value="halloword" false-value="hahahah"/>
 
 v-model.lazy是v-model数据双向绑定的懒加载，在每次input事件（失去焦点）触发后将输入框的值与数据进行同步
 
@@ -1247,11 +1251,11 @@ app.component
 
 局部注册
 
-const componentA = {}
+    const componentA = {}
 
-  components: {
-    'component-a': componentA,
-  }
+    components: {
+        'component-a': componentA,
+    }
 
 
 局部注册的组件，在其子组件是不可用的
@@ -1325,21 +1329,21 @@ const componentA = {}
 
 vue允许向父组件传递给子组件一些内容，例如：
 
-  template: `
-    <div class="hallo">
-      <div>hallo</div>
-      <slot></slot>
-    </div>
-  `
+    template: `
+        <div class="hallo">
+            <div>hallo</div>
+            <slot></slot>
+        </div>
+    `
     <hallo>vuejs</hallo>
 
 
 通过<slot>vue的自定义元素来插入，父组件的vuejs插入到slot自定义元素中
 
 如果一个子组件定义了多个slot元素，可以使用name属性和slot属性进行分配，例如：
-<slot name="main"></slot>
+    <slot name="main"></slot>
 
-<div slot="main"></div>
+    <div slot="main"></div>
 
 发现name属性值和slot属性值相同时，就会分配该插槽到该元素中
 

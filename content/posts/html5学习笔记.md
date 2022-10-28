@@ -1,6 +1,6 @@
 ---
 title: "html5学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "html" ]
 draft: false
 slug: "12"
@@ -18,7 +18,6 @@ HTML5主要的新特性：
 
 语义特性，本地存储特性，设备兼容特性，连接特性，网页多媒体特性，性能与集成特性，CSS3特性
 
-</br>
 
 HTML的块级与行级
 
@@ -58,7 +57,6 @@ display：inline-block //定义元素为行内块级元素。
 
 
 这三个的区别只有三个，排列分式，设置宽高，默认宽度
-</br>
 
 
 html语义
@@ -87,34 +85,32 @@ html语义
 没有语义的元素最适合当容器使用了
 
 
-常用的非语义元素有<div>和<span>
+    常用的非语义元素有<div>和<span>
 
-常用的语义元素有<header>和<footer>
-
-
-<header>：页眉，一般包括网站logo，主导航，搜索框等；
-
-<nav>：导航，链接；
-
-<main>：定义文章的主要内容，一个页面只能使用一次；
-
-<article>：定义一份独立的内容，脱离其他内容或者其他部分，独立于文档的其余部分；
-
-<section>：定义内容的节（段）；
-
-<footer>：页脚，一般包含版权信息或者链接等；
-
-<aside>：侧边栏，一般作为附属信息，例如导航索引，广告等；
+    常用的语义元素有<header>和<footer>
 
 
-</br>
+    <header>：页眉，一般包括网站logo，主导航，搜索框等；
+
+    <nav>：导航，链接；
+
+    <main>：定义文章的主要内容，一个页面只能使用一次；
+
+    <article>：定义一份独立的内容，脱离其他内容或者其他部分，独立于文档的其余部分；
+
+    <section>：定义内容的节（段）；
+
+    <footer>：页脚，一般包含版权信息或者链接等；
+
+    <aside>：侧边栏，一般作为附属信息，例如导航索引，广告等；
+
 
 
 meta viewport
 
 viewport 是指 web 页面上的可见区域
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 device-width指设备的理想宽度,不同的设备 device-width 是不一样的
 
@@ -124,51 +120,47 @@ maximum-scale=1.0 是指最大缩放大小是1
 
 
 
-</br>
-
 
 ---
 
 
-标签使用<和>括起来，例如<div>
+标签使用<和>括起来，例如\<div>
 
 html标签大多都是成对出现的，分开始标签和结束标签，结束标签比开始标签多了个/
 
 例如：
-<div></div>
+    <div></div>
 
 
-html不区分大小写。所以<DIV>和<div>作用一样。建议使用小写
+html不区分大小写。所以\<DIV>和\<div>作用一样。建议使用小写
 
-<!DOCTYPE html>声明这是一个html5文件，声明位于<html>前面
+    <!DOCTYPE html>声明这是一个html5文件，声明位于<html>前面
+    <html> 标识HTML文档的开始
+    <head>表明一些和html文档有关的信息，例如title
+    <body>html文档的主体
 
-<html> 标识HTML文档的开始
-<head>表明一些和html文档有关的信息，例如title
-<body>html文档的主体
-
-<!--这是一个注释-->
+    <!--这是一个注释-->
 
 
 
 段落<p>
 
-<span>
-<h1>~<h6>
+    <span><span>
+    <h1>~<h6>
+    <div></div
 
-<div>
 
+    定义头部区域<header>
 
-定义头部区域<header>
+    定义底部区域<footer>
 
-定义底部区域<footer>
+    定义区段<section>
 
-定义区段<section>
+    定义侧边栏区域<aside>
 
-定义侧边栏区域<aside>
+    换行<br>
 
-换行<br>
-
-文本输入框 <input>
+    文本输入框 <input>
 
 
 select+option 选择列表
@@ -181,9 +173,9 @@ select+option 选择列表
 
 例如：
 
-<video src="hallo.mp4" controls autoplay="autoplay" loop></video>
+    <video src="hallo.mp4" controls autoplay="autoplay" loop></video>
 
-<audio src="hallo.mp3" controls autoplay="autoplay" loop></audio>
+    <audio src="hallo.mp3" controls autoplay="autoplay" loop></audio>
 
 controls属性是显示控制栏，autoplay属性是自动播放，loop属性是循环播放
 
@@ -544,12 +536,12 @@ setLineDash()，参数是一个数组，如果数组中有两个值，那么就�
 
 图片设置宽度高度
 
-ctx.drawImage(img,100,100,200,200);  // 图片对象，x，y，宽度，高度
+    ctx.drawImage(img,100,100,200,200);  // 图片对象，x，y，宽度，高度
 
 
 将图片绘制到矩形区域内的指定位置
 
-ctx.drawImage(img,100,100,200,200,0,0,300,300);  // 图片对象，图片绘制到矩形的位置xy，图片的高度和宽度，图片矩形的位置，图片矩形的高度和宽度
+    ctx.drawImage(img,100,100,200,200,0,0,300,300);  // 图片对象，图片绘制到矩形的位置xy，图片的高度和宽度，图片矩形的位置，图片矩形的高度和宽度
 
 
 解决图片比例不正常：
@@ -568,7 +560,7 @@ iframe框架
 
 用于在网页中显示网页
 
-\<iframe src="https://cjlio.com">\</iframe>
+    <iframe src="https://cjlio.com"></iframe>
 
 可以设置高度和宽度
 
@@ -579,8 +571,8 @@ frameborder="0" // 可以移除边框
 
 target属性：浏览器会在指定文件中寻找对应的name，并且寻找到对应name的href属性
 
-\<iframe src="index.html" name="iframe_a">\</iframe>
-\<a href="https://cjlio.com" target="iframe_a">hallo\</a>
+    <iframe src="index.html" name="iframe_a"></iframe>
+    <a href="https://cjlio.com" target="iframe_a">hallo</a>
 
 ---
 

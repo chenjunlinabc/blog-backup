@@ -1,6 +1,6 @@
 ---
 title: "简单使用Express-Web应用框架"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "Express" ]
 draft: false
 slug: "138"

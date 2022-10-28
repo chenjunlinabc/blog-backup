@@ -1,6 +1,6 @@
 ---
 title: "linux系统的日常使用"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "Linux" ]
 draft: false
 slug: "8"
@@ -20,35 +20,36 @@ nano /etc/apt/sources.list
 替换内容为
 
 
-\# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
-\# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
-\# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
-\# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
-\# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+    # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe     multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
 
-\# 预发布软件源，不建议启用
-\# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
-\# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+    # 预发布软件源，不建议启用
+    # deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+
 注：该源为清华大学开源软件镜像站的,可以修改为其他镜像站的源
 
 163镜像源
 
-\# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
-deb http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse
-deb http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse
-deb http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
-deb http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
-\# deb-src http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse
-\# deb-src http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse
-\# deb-src http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
-\# deb-src http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
-\# 预发布软件源，不建议启用
-\# deb http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
-\# deb-src http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
+    # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+    deb http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
+    # deb-src http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse
+    # deb-src http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse
+    # deb-src http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
+    # deb-src http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
+    # 预发布软件源，不建议启用
+    # deb http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
+    # deb-src http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
 
 
 
@@ -314,6 +315,8 @@ i: 不能删除，不能修改，不能移动
 ---
 
 
+ifconfig // 查看网络配置，或者ip addr ls
+
 网卡配置文件在/etc/sysconfig/network-scripts下
 
 网卡配置文件名称一般为ifcfg-xxx
@@ -334,4 +337,22 @@ DNS1=114.114.114.114     // 设置dns
 nmcli c reload // 重启网络服务
 
 ip addr // 查看本地IP地址以及其他网卡信息
+
+
+ip link set dev eth0 up // 启用网卡 或者ifup eth0
+
+ifconfig eth0 192.168.186.128 // 修改指定网卡的ip
+
+ifconfig eth0 192.168.186.128 netmask 255.255.255.0 // 修改子网掩码
+
+route -n // 显示和操作IP路由表
+
+route add default gw 192.168.186.1 // 增加指定网关，其中的default是指0.0.0.0的，可自己选择想要的，例如route add -host 192.168.186.2 gw 192.168.186.1
+
+route add -net 192.168.0.0 netmask 255.255.255.0 gw 192.168.186.1 // 设置网段的网关
+
+route del default gw 192.168.186.1  // 删除指定网关
+
+
+---
 

@@ -1,6 +1,6 @@
 ---
 title: "简单了解CSRF攻击和XSS攻击"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "CSRF","XSS" ]
 draft: false
 slug: "99"
@@ -17,7 +17,7 @@ CSRF实质上就是盗用身份，来实现发送恶意请求
 
 例如：
 
-\<img src ="http://xxx.xxx/test?xxx=666">
+    <img src ="http://xxx.xxx/test?xxx=666">
 
 只要访问就会发生该恶意请求，也可以是某超链接或者按钮等等
 
@@ -53,13 +53,13 @@ XSS：跨站脚本攻击（Cross Site Scripting），因为避免和层叠样式
 
 XSS攻击原理就是在页面插入恶意脚本，当页面被访问了，那么这个恶意脚本被执行，从而达到恶意攻击用户的目的
 
-例如：在某个页面评论上加<script>alert('hack')</script>，那么如果没有做过xss攻击防御的站点，其他用户访问到这个页面，那么就会执行该程序
+例如：在某个页面评论上加\<script>alert('hack')\</script>，那么如果没有做过xss攻击防御的站点，其他用户访问到这个页面，那么就会执行该程序
 
 
 做那些标签防御，都可以闭合绕过，都是无用功，例如：通过属性值来输出
 
 
-也用通过过滤<script>标签的，但是可以通过大小写绕过（html不区分大小写）
+也用通过过滤\<script>标签的，但是可以通过大小写绕过（html不区分大小写）
 
 
 简单的防御方法：
@@ -99,7 +99,7 @@ xss和csrf的区别：csrf是利用网站的自动执行的接口，依赖于用
 
 html也可以配置该策略，例如：
 
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*;">
 
 
 其中img-src对应的指定图像或者图标的有效来源

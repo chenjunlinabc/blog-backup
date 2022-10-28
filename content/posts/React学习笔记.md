@@ -1,6 +1,6 @@
 ---
 title: "React学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "React" ]
 draft: false
 slug: "55"

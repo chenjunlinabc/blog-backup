@@ -1,6 +1,6 @@
 ---
 title: "简单使用TailwindCSS"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "css","TailwindCSS" ]
 draft: false
 slug: "130"

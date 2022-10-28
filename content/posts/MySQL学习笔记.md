@@ -351,3 +351,70 @@ DESCRIBE 视图名；
 在多表上创建视图
 
 CREATE VIEW 视图名  AS SELECT 字段1,字段2,字段3 FROM 表名1 别名1,表名2 别名2 WHERE 别名1.字段1 = 别名2.字段1 AND 别名2.字段2 = 别名1.字段2 ;
+
+
+
+---
+
+
+查看当前mysql版本
+
+SELECT VERSION();
+
+查看当前数据库的用户
+
+SELECT USER();
+
+查看数据库的存储路径
+
+SELECT @@DATADIR;
+
+查看mysql的安装路径
+
+SELECT @@BASEDIR
+
+查看mysql的安装操作系统
+
+SELECT @@VERSION_COMPILE_OS
+
+初始数据库默认有4个，其中information_schema是保存着mysql服务器所维护的其他数据库的信息，例如数据库表，数据库名，表的数据类型，以及数据库的权限等等
+
+其中information_schema有73个表，其中最重要的有3个，分别是SCHEMATA和TABLES，以及COLUMNS
+
+SCHEMATA表存储了当前mysql中存储的数据库的信息，指令SHOW DATABASES;的结果来自于该表
+
+TABLES表存储了数据库中的表的信息（视图的信息也存储在该表）
+
+COLUMNS表存储了表的列信息
+
+通过information_schema表来查询
+
+查询有什么数据库
+
+SELECT * FROM information_schema.SCHEMATA;
+
+查询hallo数据库有什么数据表
+
+SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA="hallo";
+
+查询hallo数据表有哪些列
+
+SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME="hallo";
+
+mysql数据库是mysql的核心，其中存储了数据库的用户，权限设置，关键字等等所需要使用和管理的数据
+
+performance_schema数据库存储了mysql服务器运行期间的状态信息，例如执行了那些语句，内存使用了多少等等
+
+sys数据库主要是通过视图的形式将数据库的数据汇总，可用来性能调优和诊断
+
+
+UNION操作符可以将多个（2个以上）SELECT语句合并在一起，如果出现重复的数据会被忽略（唯一性）
+
+例如：
+
+SELECT id FROM test
+UNION
+SELECT id FROM test1
+ORDER BY id;
+
+如果需要输出重复的数据，可以使用UNION ALL

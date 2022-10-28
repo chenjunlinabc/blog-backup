@@ -1,6 +1,6 @@
 ---
 title: "Git版本管理系统学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "Git" ]
 draft: false
 slug: "30"
@@ -469,6 +469,134 @@ git reset --hard commitId  // 回到指定版本，commitId使用git log查看�
 如果这是某个修改有错误，要回退时，但是又想保留之前版本的工作时就可以使用git revert -n commitId
 
 这种需求常见于多人协同开发，当别人已经push提交，如果再使用reset回退的话，就会影响到别人的提交，因为版本冲突了，revert实质上就是恢复到某个版本，但是之前的版本不会被删除，而且是在当前最新版本的基础上创建了一个新的版本，当然在git上没有是绝对的删除，只要有commitId在就可以恢复
+
+
+---
+
+
+
+在git2.23版本中添加了git switch命令，该命令专门用来切换分支，功能和git checkout一致
+
+git switch 分支名 // 切换到指定分支
+
+git switch -c 分支名 // 创建该分支并且切换到该分支，和git checkout -b功能一致
+
+
+---
+
+
+
+解决分支无法合并
+
+导致原因：不同的分支都有自己的新提交，git不知道以谁的为准
+
+解决方法：手动解决，通过git status命令查看冲突的文件
+
+
+---
+
+
+git commit --amend // 对最近提交的message进行修改
+
+git rebase -i commit的id // 修改指定提交的message，这里应该使用reword或者r，退出该文件后，git会弹出修改commit描述的文件
+
+git rebase -i中有6种命令，分别是pick，reword，edit，squash，fixup，exec
+
+pick：提交，可通过排序来变更提交的顺序，如果不想要该次直接删除整行
+
+reword：和pick类似，但是它可以给你修改commit的message的机会
+
+edit：提供机会来修改提交
+
+squash：将多个或者两个提交合并成一个提交，压缩到其上方的提交，并且给机会来编写这次提交的message
+
+fixup：和squash类似，不过合并的过程中，被合并的提交的message将丢失，压缩到其上方的提交，但是只保留较早的提交的message
+
+exec：对提交执行shell命令
+
+---
+
+
+
+解决分支冲突的其他解决方案（本地分支与远程仓库分支合并，本地分支作为指定远程仓库分支的未来分支提交）
+
+
+将远程分支拉取至本地
+git fetch 远程仓库地址 分支名
+
+查看远程分支
+git branch -r
+
+查看全部分支
+git branch -a
+
+将远程仓库分支与本地当前分支合并
+git merge 远程仓库地址/分支名
+
+将远程仓库分支的修改与本地当前分支合并（rebase可以将其他分支的提交作为当前分支的时间线的开头，也就是当前分支作为新的未来提交分支了）
+git rebase 远程仓库地址/分支名
+
+
+
+---
+
+
+
+
+GPG签名（通过签名来确定提交者身份，git默认的用户及邮箱可以伪造，不安全）
+
+
+查看git是否包含GPG命令（windows要在Git Bash 运行）
+
+gpg --version
+
+创建GPG keys
+
+gpg --full-generate-key
+
+第一个是选择加密算法，选择1就好，然后就是选择key的长度（选择4096），再然后就是选择密令的有效期（根据自己选择来，不想过期就选择0），然后名称，邮箱，最后选择o设置私钥密码就创建完成
+
+查看生成的公钥
+
+gpg --list-keys
+
+查看私钥
+
+gpg --list-secret-keys
+
+
+关联GPG公钥到Github
+
+gpg --armor --export 密钥ID
+
+
+对commit签名
+
+git config --global user.signingkey 密钥ID
+
+开启git自动签名（也可以在git commit的时候使用-s参数）
+
+git config --global commit.gpgsign true
+
+查看git仓库签名信息
+
+git log --show-signature
+
+
+解决github网页签名问题
+
+导入github签名
+
+curl https://github.com/web-flow.gpg | gpg --import
+
+信任签名并且用自己的密钥进行签名验证
+
+gpg --sign-key github的key
+
+
+
+
+
 
 
 

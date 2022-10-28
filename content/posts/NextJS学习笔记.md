@@ -1,6 +1,6 @@
 ---
 title: "NextJS学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "React","NextJS" ]
 draft: false
 slug: "74"
@@ -375,3 +375,10 @@ yarn add babel-plugin-import
 
 
 
+---
+
+
+
+Turbopack是基于Rust开发的打包器，使用Rust的SWC编译器，Turbopack将作为Nextjs的开发服务端，提供强大的HMR支持，目前还在alpha测试中，可以通过yarn dev --turbo运行next13项目体验
+
+Turbopack基于Rust开源的Turbo记忆化框架，Turbo可以缓存函数的结果（存储在内存中，只有当停止dev服务时清除缓存，但是Turbopack也提供了远程缓存来对于生产环境的使用（基于Git）），第二次运行时，不会执行函数，而是直接使用结果，除非发生改变

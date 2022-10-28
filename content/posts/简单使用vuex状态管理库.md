@@ -42,7 +42,7 @@ new Vuex.store()
 index.js
 
     Vue.use(Vuex)
-    const store = new Vue.Store({
+    const store = new Vuex.Store({
         state: {
             count: 0
         }

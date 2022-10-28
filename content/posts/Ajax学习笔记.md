@@ -1,6 +1,6 @@
 ---
 title: "Ajax学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "JavaScript" ]
 draft: false
 slug: "54"

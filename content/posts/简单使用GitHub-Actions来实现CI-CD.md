@@ -1,6 +1,6 @@
 ---
 title: "简单使用GitHub Actions来实现CI/CD"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "Git","Github" ]
 draft: false
 slug: "131"

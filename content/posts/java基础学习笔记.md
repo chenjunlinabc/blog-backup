@@ -1,6 +1,6 @@
 ---
 title: "java基础学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "java" ]
 draft: false
 slug: "19"
@@ -734,3 +734,8 @@ java输出中文乱码，可能是javac读取java文件使用的字符集错误
 
 javac -encoding utf-8 *.java
 
+
+---
+
+
+java已放弃学习，主打golang和Python了（java又臭又长，快来加入golang教吧）

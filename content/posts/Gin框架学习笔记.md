@@ -1,6 +1,6 @@
 ---
 title: "Gin框架学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "golang","Gin" ]
 draft: false
 slug: "135"

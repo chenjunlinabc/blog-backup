@@ -1,6 +1,6 @@
 ---
 title: "Python的一些神器的简单用法"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "Python" ]
 draft: false
 slug: "27"
@@ -231,99 +231,100 @@ docx模块（操作Word）
 from docx import Document
 from docx.shared import Inches
 
-\#初始化Document对象
+初始化Document对象
 document = Document()
+Document("1.docx")
 
-\#Document("1.docx")
-
-\#写入标题，段落样式由level控制，范围0到9，默认为1
+写入标题，段落样式由level控制，范围0到9，默认为1
 document.add_heading(text="hallo word",level=9)
 
-\#写入段落，段落样式由style控制
+写入段落，段落样式由style控制
 data = document.add_paragraph(text="https://cjlio.com/",style=None)
 
-\#插入段落到现有段落中，段落样式由style控制
+插入段落到现有段落中，段落样式由style控制
 data.insert_paragraph_before(text="abcxyz",style=None)
 
-\#插入图片,并且缩小图片英寸为1.6
+插入图片,并且缩小图片英寸为1.6
 document.add_picture("1.jpg",width=Inches(1.6))
 
-\#插入表格，rows是指定行数，cols是指定行数，style为表格样式
+插入表格，rows是指定行数，cols是指定行数，style为表格样式
 table = document.add_table(rows=1,cols=3,style="Table Grid")
 
-\#插入列表中第一行的单元格
+插入列表中第一行的单元格
+
 maincells = table.rows[0].cells
 maincells[0].text = "id"
 maincells[1].text = "user"
 maincells[2].text = "pass"
 
-\#初始化
+初始化
     data_cells =(
         [1,"root","a"],
         [2,"admin","b"],
         [3,"user","c"]
     )
 
-\#写入
+写入
     for item in data_cells:
         maincells_rows = table.add_row().cells
         maincells_rows[0].text = str(item[0])
         maincells_rows[1].text = item[1]
         maincells_rows[2].text = item[2]
 
-\#保存
+保存
 document.save("hallo.docx")
 
 
 ---
 
-\#docx样式
+docx样式
 
-\# 导入模块
+导入模块
+
 from docx import Document
 from docx.shared import Pt
 from docx.shared import RGBColor
 from docx.oxml.ns import qn
 
-\# 初始化Document对象
+初始化Document对象
 document = Document("1.docx")
 
-\# 插入页眉
+插入页眉
 header = document.sections[0].header
 
 header.add_paragraph("hallo python")
 
-\# 插入页脚
+插入页脚
 footer = document.sections[0].footer
 
 footer.add_paragraph("hallo word")
 
-\# 样式
+样式
 p1 = document.add_paragraph()
 text1 = p1.add_run("hallo WORD，hallo python-docx，你好，世界")
 
-\# 字体大小
+字体大小
 text1.font.size = Pt(16)
 
-\# 字体是否加粗
+字体是否加粗
 text1.bold = True
 
-\# 字体
+字体
 text1.font.name = "黑体"
 
-\# 字体（只能设置中文）
+字体（只能设置中文）
 text1.element.rPr.rFonts.set(qn("w:eastAsia"), "黑体")
 
-\# 字体颜色
+字体颜色
 text1.font.color.rgb = RGBColor(0, 0, 255)
 
-\# 斜体
+斜体
 text1.italic = True
 
-\# 下划线
+下划线
 text1.underline = True
 
-\# 保存
+保存
 document.save("hallo.docx")
 
 
@@ -332,81 +333,81 @@ document.save("hallo.docx")
 
 xlrd模块+xlwt模块(操作xlsx)
 
-\# 导入xlrd模块
+导入xlrd模块
 import xlrd
 
-\#加载1.xlsx
+加载1.xlsx
 data = xlrd.open_workbook("1.xlsx")
 
-\#判断是否加载成功，可以指定第几张工作表，0为第一个工作表
+判断是否加载成功，可以指定第几张工作表，0为第一个工作表
 print(data.sheet_loaded(0)) \#True
 
-\#卸载指定工作表
-\#data.unload_sheet(0)
+卸载指定工作表
+data.unload_sheet(0)
 
-\#输出全部工作表名字（Sheet）
+输出全部工作表名字（Sheet）
 print(data.sheet_names())
 
-\#输出工作表的数量
+输出工作表的数量
 print(data.nsheets)
 
-\#输出全部所有sheet对象
+输出全部所有sheet对象
 print(data.sheets())
 
-\#将指定工作表索引到变量中
+将指定工作表索引到变量中
 main = data.sheet_by_index(0)
 
-\#名字索引到变量中
-\#main = data.sheet_by_name("Sheet1")
+名字索引到变量中
+main = data.sheet_by_name("Sheet1")
 
-\#输出工作表名字
+输出工作表名字
 print(main.name)
 
-\#输出工作表有效总行数
+输出工作表有效总行数
 print(main.nrows)
 
-\#输出工作表有效总列数
+输出工作表有效总列数
 print(main.ncols)
 
-\#输出工作表有效总列数
+输出工作表有效总列数
 print(main.row_len(1))
 
-\#输出单元格值类型和内容
+输出单元格值类型和内容
 print(main.row(0))
 
-\# 数据类型：
-\# 空：0
-\# 字符串：1
-\# 数字：2
-\# 日期：3
-\# 布尔：4
-\# error：5
+数据类型：
+空：0
+字符串：1
+数字：2
+日期：3
+布尔：4
+error：5
 
-\#输出第1行第二列的单元格内容
+输出第1行第二列的单元格内容
 print(main.row(0)[1].value)
 
-\#输出第二列表的全部内容
+输出第二列表的全部内容
 print(main.col(1))
 
-\#输出第一行的内容
+输出第一行的内容
 print(main.row_values(0))
 
-\#输出单元格数据类型
+输出单元格数据类型
 print(main.row_types(0))
 
-\#输出第一列的内容
+输出第一列的内容
 print(main.col_values(0))
 
-\#输出第二列的数据类型
+输出第二列的数据类型
 print(main.col_types(1))
 
-\#输出第6行第一列内容和数据类型
+输出第6行第一列内容和数据类型
 print(main.cell(5,0))
 
-\#输出第6行第一列内容的数据类型
+输出第6行第一列内容的数据类型
 print(main.cell(5,0).ctype)
 
-\#输出第6行第一列内容
+输出第6行第一列内容
 print(main.cell(5,0).value)
 
 
@@ -415,120 +416,117 @@ print(main.cell(5,0).value)
 
 利用xlwt模块写
 
-\#导入xlwt模块
+导入xlwt模块
 import xlwt
 
-\#xlwt模块不支持xlsx，只支持xls
+xlwt模块不支持xlsx，只支持xls
 
-\#新建workbook，字符集为utf-8
+新建workbook，字符集为utf-8
 hallo = xlwt.Workbook(encoding="utf8")
 
-\#新建sheet
+新建sheet
 abc = hallo.add_sheet("Sheet1")
 
-\#第1行到第3行和第1列到第9列合并并且写入hallo word
-\#abc.write_merge(0,2,0,8,"hallo word")
+第1行到第3行和第1列到第9列合并并且写入hallo word
+abc.write_merge(0,2,0,8,"hallo word")
 
-\#在第4行第1列写入hallo word
-\#abc.write(3,0,"hallo word")
+在第4行第1列写入hallo word
+abc.write(3,0,"hallo word")
 
-\#批量写入
+批量写入
     data = ((1,"hallo","abc","xyz",123),(1,"hallo","abc","xyz",123))
 
     for i,a in enumerate(data):
         for q,s in enumerate(a):
             abc.write(i,q,s)
 
-\#在第1行第1列写入图片，只支持bmp格式
+在第1行第1列写入图片，只支持bmp格式
 abc.insert_bitmap("1.bmp", 0, 0)
 
-\#保存
+保存
 hallo.save("hallo.xls")
 
 
 
-\#样式
+样式
 
-\#初始化
+初始化
 style = xlwt.XFStyle()
 
-\#初始化样式
+初始化样式
 stylefont = xlwt.Font()
 
-\#名称
+名称
 stylefont.name = "宋体"
 
-\#加粗
+加粗
 stylefont.bold = True
 
-\#字号
+字号
 stylefont.height = 11*20
 
-\#字体颜色，注意不是RGB颜色，而是在xlwt内部定义的
+字体颜色，注意不是RGB颜色，而是在xlwt内部定义的
 stylefont.colour_index = 0x0A
 
 style.font = stylefont 
 
 
-\#初始化Alignment
+初始化Alignment
 align = xlwt.Alignment()
 
-\#水平对齐方式
+水平对齐方式
 align.vert = 0x01
 
-\#垂直对齐方式
+垂直对齐方式
 align.horz = 0x00
 
-\#应用对齐方式
+应用对齐方式
 style.alignment = align
 
-\#水平对齐方式
-\#
-\#0x01(左端对齐)
-\#0x02(水平居中对齐)
-\#0x03(右端对齐)
-\#
-\#
-\#垂直对齐方式
-\#
-\#0x00(上端对齐)
-\#0x01(垂直居中对齐)
-\#0x02(底部对齐)
+水平对齐方式
+0x01(左端对齐)
+0x02(水平居中对齐)
+0x03(右端对齐)
+
+垂直对齐方式
+0x00(上端对齐)
+0x01(垂直居中对齐)
+0x02(底部对齐)
 
 
-\#初始化Borders
+初始化Borders
 borders = xlwt.Borders()
 
-\#指定边框样式
+指定边框样式
 borders.right = xlwt.Borders.DASHED
 
 
-\#应用边框
+应用边框
 style.borders = borders
 
-\# top 上边框
-\# bottom 下边框
-\# left 左边框
-\# right 右边框
-\#
-\#DOTTED 点线
-\#DASHED 虚线
+top 上边框
+bottom 下边框
+left 左边框
+right 右边框
+
+DOTTED 点线
+DASHED 虚线
 
 
-\#初始化Pattern
+初始化Pattern
 color = xlwt.Pattern()
 
-\#填充模式为完全填充
+填充模式为完全填充
 color.pattern = xlwt.Pattern.SOLID_PATTERN
 
-\#填充黑色
+填充黑色
 color.pattern_fore_colour = 0
 
-\# 应用
+应用
 style.pattern = color
 
 
-\#应用style
+应用style
 abc.write_merge(0,2,0,8,"hallo word",style)
 
 

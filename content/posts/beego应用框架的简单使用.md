@@ -1,6 +1,6 @@
 ---
 title: "beego应用框架的简单使用"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "golang","beego" ]
 draft: false
 slug: "134"

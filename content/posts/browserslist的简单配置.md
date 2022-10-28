@@ -1,6 +1,6 @@
 ---
 title: "browserslist的简单配置"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "npm","browserslist" ]
 draft: false
 slug: "140"

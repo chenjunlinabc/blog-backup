@@ -534,6 +534,14 @@ Home.vue
 
 
 
+
+---
+
+
+
+
+
+
 导航守卫（导航守卫实质上就是路由跳转时的钩子函数，守卫是异步执行的）
 
 全局前置守卫：beforeEach
@@ -978,5 +986,12 @@ vue devtools调试工具
 以谷歌浏览器为例子，加载已解压的扩展程序，选择刚刚打包的目录的packages/shell-chrome文件夹
 
 
+vue3引入了tree-shaking技术，当没有在项目中使用某个模块时，那么该模块的代码将不会出现在打包中
 
+vue3抛弃了Object.defineProperty，改用Proxy来做数据的响应式
 
+vue3不再使用src托管，而采用monorepo管理
+
+vue3采用typescript编写源码，对typescript的兼容更好，vue2使用的是flow来处理类型检查
+
+vue3提供了Composition API，对于逻辑复用支持更好

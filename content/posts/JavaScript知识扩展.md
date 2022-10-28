@@ -529,6 +529,10 @@ script元素的defer属性可以等解析完毕（Loaded）后再执行
 
 跨域资源共享(CORS)
 
+跨域发生的原因并不是在服务端，而是浏览器，实质上跨域发生后，服务端接收到请求，并且返回响应，但是浏览器接收到了响应后，因为浏览器的安全策略的原因，如果符合跨域的要求，但是没有通过Access-Control-Allow-Origin参数来允许客户端跨域请求该数据的话，浏览器将忽略响应结果，返回发生跨域的报错，从而得出，跨域是浏览器的安全策略的一种，确保得到的响应是服务端的的确确是发送给浏览器（客户端）的，而且也能进一步避免浏览器处理了另一个域的恶意脚本，也能进一步避免服务端的敏感数据对不合法请求的暴露
+
+注意：localhost和127.0.0.1是存在映射关系，但是浏览器不知道localhost是映射到哪里的，因此浏览器会认为localhost和127.0.0.1是不同域的
+
 CORS可以通过http头来告诉浏览器，准许访问来自不同源的指定资源
 
 只需要服务器设置Access-Control-Allow-Origin就可以，只有特殊跨域才需要设置
@@ -554,6 +558,7 @@ node跨域
     app.all('*', function(req, res, next) {
         console.log(req.method);
         res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Origin", "https://test.cjlio.com");
         res.header('Access-Control-Allow-Headers', 'Content-type');
         res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS,PATCH");
         res.header('Access-Control-Max-Age',1728000);
@@ -562,6 +567,8 @@ node跨域
 
 
 预检请求
+
+CORS预请求：浏览器会发送一个OPTIONS请求到服务端验证跨域的配置是否正确，然后服务端返回一个响应来确定跨域是否被允许
 
 
 CORS将请求分成2种，简单请求（simple request）和非简单请求（not-simple-request）
@@ -586,15 +593,118 @@ CORS预检请求：使用OPTIONS请求发送预检请求到服务器上，来确
 
 注意：浏览器有个最大有限时间，Access-Control-Max-Age响应头（服务端响应），该响应头表示了本次预检请求的响应可以被缓存多久，单位为秒（不同浏览器最大有限时间都不同，Firefox为86400秒，目前最新chromium为7200秒），在这个时间段内浏览器不需要再为同一个请求发送预检请求
 
+缓存
+
+        res.header("Cache-Control","max-age=60");
+
+private指的单个用户，public可以被任何中间人、CDN等缓存
+
+HTTP的可缓存性（public（允许被任何人（客户端，中间人，代理都可以）缓存），private（只能缓存在客户端，代理服务器无法获得缓存），no-cache（禁止强缓存，每次都需向服务端验证缓存是否过期，只有当确认没有过期后才能被缓存））
+
+缓存到期(max-age（缓存的到期时间，单位为秒，距离上一次请求多少秒后缓存过期），s-maxage（设置代理服务器的缓存到期时间，单位为秒），max-stale（允许缓存超过max-age或者s-maxage设置的缓存生存时长，该配置表示过期的缓存最大可以缓存多久，单位秒，也就是说实质缓存过期时间是max-age+max-stale（或者s-maxage））)
+
+重新验证（must-revalidate（和no-cahe类似，但是该参数允许缓存过期多少秒后进行验证，单位为秒），proxy-revalidate（和must-revalidate类似，不过只作用于代理服务器））
+
+no-store（禁止缓存），no-transform（不允许对资源进行压缩或者转换的工作）
+
+
+设置一个完全禁止缓存（Cache-Control: no-cache, no-store, must-revalidate）
 
 
 
+缓存的验证（Last-Modified（表示上次修改的时间），Etag（数据的唯一签名，如果资源发生改变，签名会发生改变））
+
+If-Modified-Since：第二次访问该资源时，浏览器会向服务端发送一个请求，来确定该资源是否发生修改（重启服务器也会导致认为已经修改），如果没有修改则继续使用缓存（该请求的响应为304），如果已经修改了则重新对该资源的拉取
+
+If-None-Match：当浏览器请求该资源时，服务端会发送一个Etag给浏览器，浏览器第二次请求该资源时，发送一个If-None-Match给服务端，让服务端来验证资源是否发送了改变
+
+cookie
+
+cookie通过Set-Cookie设置
+
+cookie是具备过期时间的，通过max-age来设置（表示该cookie存活多长时间后被销毁，单位秒），默认当浏览器销毁该会话时自动删除cookie，还可以设置expires来设置过期时间（指定该cookie到达什么时间后消耗，根据过期时间和本地客户端的时间进行对比，如果超过或者已经到了过期时间，就会销毁该cooki）
+
+设置httponly后无法通过document.cookie访问cookie（安全）
+
+secure只在https时发送该cookie（安全）
+
+Domain只在命中该域时发送该cookie（安全）
+
+path可以限制服务端哪个路径下可以访问到该cookie（安全）
+
+
+    const http = require("http")
+    http.createServer(function (_request, response) {
+        response.writeHead(200,{
+            'Content-Type': 'text/plain',
+            'Set-Cookie': 'id=abc'
+            // 'Set-Cookie': ['id=abc; max-age=5','pass=123; HttpOnly Secure=true','age=20; Domain=test.cjlio.com; path=/testWeb/']
+        })
+        response.end("hallo nodejs")
+    }).listen(8888)
+    console.log('Server running at http://127.0.0.1:8888/')
 
 
 
+http数据协商
+
+Accept（客户端想要的数据类型）
+
+Accept-Encoding（数据的编码传输，避免服务端进行数据编码压缩）
+
+Accept-Language（数据的语言）
+
+User-Agent（浏览器的UA信息）
+
+Content-Type（服务端返回的数据的实质类型）
+
+Content-Encoding（服务端实质返回的数据的编码（实质的数据的压缩格式））
+
+Content-Language（服务端返回数据的实质语言）
+
+
+Content-Security-Policy（内容安全策略，CSP）
+
+限制资源的获取
+
+        res.writeHead(200, {
+            'Content-Type': 'text-html',
+            'Content-Security-Policy': 'default-src http: https:' 
+            // 'Content-Security-Policy': 'default-src \'self\' http://test.cjlio.com; form-action \'self\'; report-uri https://testreport.cjlio.com; report-to reportTest' 
+        });
 
 
 
+default-src是全局限制，还有img-src，script-src，style-src等等限制指定的资源类型，上面的例子中表示的是限制全局资源必须是以http或者https的外联的方式访问，内联方式访问将会报错
+
+\'self\'的作用是非本域的资源，限制其加载，也可以设置指定的域的资源可以加载（注意：该限制不会导致form元素的action属性，需要使用form-action \'self\'来限制）
+
+report-uri的作用是当客户端存在违反CSP的企图是，将违规报告通过post请求的方式（json格式）发送指定服务器（该功能已被web标准抛弃，推荐使用取代品report-to）
+
+report-to配置
+
+    Report-To: { 
+        "group": "reportTest",
+        "max_age": 10886400,
+        "endpoints": [
+            { "url": "https://reports.cjlio.com" },
+            { "url": "https://test.cjlio.com/reports" }
+        ]
+    },{ 
+        "group": "reportTestA",
+        "max_age": 10886400,
+        "endpoints": [
+            { "url": "https://reportsA.cjlio.com" },
+            { "url": "https://test.cjlio.com/reportsA" }
+        ]
+    },
+
+当发生违规情况时，发送report报告到指定endpoints下的url中，group为report名，max_age是报告的最大大小是多少，可以设置多个report报告，report-to不支持在meta下使用
+
+如果发生违规情况，但是又不想强制限制资源的加载，只想记录违规情况的时候，可以使用Content-Security-Policy-Report-Only
+
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://test.cjlio.com; form-action 'self'">
 
 ---
 
@@ -646,8 +756,8 @@ JSON转JavaScript对象（利用eval()来解析json文本）
 
     let objStr = '{"name":"root","pass":"admin","true": null}'
     let objArr = '[{"name": "boom","pass": "hallo"},{"name": "aaa","pass": "yes"}]'
-    let obja = eval ("(" + objStr + ")")
-    let objb = eval ("(" + objArr + ")")
+    let obja = eval("(" + objStr + ")")
+    let objb = eval("(" + objArr + ")")
     console.log(obja)
     console.log(objb)
 
@@ -1105,7 +1215,7 @@ Symbol.toPrimitive效果和valueOf()类似，只是优先级比valueOf()高，�
 ===，首先进行判断类型是否相同
 
     undefined==null // true
-    
+
     "0" == false // true
 
 比较
@@ -1196,9 +1306,8 @@ getOwnPropertyDescriptor()：当使用Object.getOwnPropertyDescriptor()获取该
             
             target[property] = value
             console.log(`${property}属性被设置值`, value)
-
-
-​            
+            
+            
         }
     })
     console.log(proxy1.name)
@@ -1285,26 +1394,24 @@ DNS查询优先级：浏览器缓存>hosts>路由器缓存>DNS服务器缓存（
 Chrome浏览器默认缓存60秒，如果之间访问过了该域名，那么在60秒内将不会重新获取DNS缓存，而是直接调用浏览器的DNS缓存，减少DNS查询耗费的时间
 
 开启DNS预解析
-
-`<meta http-equiv="x-dns-prefetch-control" content="on"/> `
+<meta http-equiv="x-dns-prefetch-control" content="on"/> 
 
 尝试对a.cjlio.com域名做预解析（不能用来对当前域名做预解析，因为当得到这个资源时，早就得到当前域名的解析IP）
-
-`<link rel="dns-prefetch" href="https://a.cjlio.com"/> `
+<link rel="dns-prefetch" href="https://a.cjlio.com"/> 
 
 预连接
 
-`<link rel="preconnect" href="https://a.cjlio.com">`
+<link rel="preconnect" href="https://a.cjlio.com">
 
 
 预加载（会提升该资源加载的优先级，加载和执行是不同的，加载完成并不会执行，需要手动执行）
 
-`<link rel="preload" as="script" href="./jquery.min.js"/>`
-`<script src="./jquery.min.js"></script>`
+<link rel="preload" as="script" href="./jquery.min.js"/>
+<script src="./jquery.min.js"></script>
 
 预判加载（会降低该资源加载的优先级，因此只有当空闲时才会加载这个）
 
-`<link rel="prefetch" as="script" href="./jquery.min.js">`
+<link rel="prefetch" as="script" href="./jquery.min.js">
 
 
 HTTP请求优化：解决请求阻塞（请求阻塞（Stalled）是浏览器为了确保访问速度，对同一域名下的资源限制在一定的请求数，超过该请求数就会阻塞）
@@ -2204,10 +2311,236 @@ let关键字可以将变量隐式绑定到其所在的块作用域中（{...}内
 
 
 
+---
+
+
+对象
+
+对象可通过new Object()定义，也可以通过键值对来定义
+
+    let obj = new Object()
+    obj.key = "hallo"
+    let obj1 = { key: "hallo"}
+
+
+注意：null不是对象，因为JavaScript会将二进制前三位为0的变量判断为object类型，而null的二进制表示全为0，因此使用typeof判断值为null的变量的类型，会返回object
+
+000开头是对象，1开头是整数，010是浮点数，100是字符串，110是布尔
+
+
+注意：基础类型并不是对象，例如"hallo word"是字符串字面量，并不能直接修改值或者访问属性，但是JavaScript会将字符串字面量自动转换为string对象，但是这并不代表基础类型就是对象，数值字面量也会被转换为number类型
+
+
+
+对象是引用类型，这表示其真实的值存储中内存中，而对象内部存储的不过是指针引入，指向存储了该值的内存
+
+
+数组对象，数组内部存储的位置是索引（整数）
+
+注意：给数组添加属性，不要使用纯数字的属性名，因为当使用纯数字的属性名，JavaScript会将其认为是索引，从而认为其是添加一个新值，而不是添加一个属性
+
+复制对象（深拷贝，浅拷贝）
+
+对象属性描述符（es5之后属性拥有了属性描述符，例如writable（是否可以修改属性的值），enumerable（可枚举）和 configurable（可设置））
+
+创建属性时属性描述符默认使用默认值
+
+    let Obj = {}
+    Object.defineProperty( Obj, "key", { 
+        value: "hallo word", 
+        writable: true, // 可修改属性值
+        configurable: true,  // 可重新通过Object.defineProperty设置属性描述符
+        enumerable: true // 可被属性枚举，例如for in语句，如果为false，那么该属性不会出现在属性枚举中，例如in操作枚举
+    });
+
+
+因此可通过writable，configurable设置为false，来创建常量属性
+
+设置对象不再可扩展新属性，可使用Object.preventExtensions()
+
+    let obj1 = { key: "hallo"}
+    Object.preventExtensions(obj1)
+    obj1.nums = 666
+    console.log(obj.nums) // undefined
+
+设置对象不再可扩展新属性并且不能修改现有属性的配置或者删除属性（可以修改属性值），可以使用Object.seal()
+
+    let obj1 = { key: "hallo"}
+    Object.seal(obj1)
+    obj1.nums = 666
+    console.log(obj.nums) // undefined
+
+
+当然也可以在Object.seal()基础上，禁止修改属性值，Object.freeze()
+
+    let obj1 = { key: "hallo"}
+    Object.freeze(obj1)
+    obj1.key = "hahaha" // TypeError
+
+
+注意：在访问属性时，会在该对象中查找是否存在名字相同的属性，如果存在就返回该属性的值，如果没有找到就会触发原型链机制
+
+
+在设置属性时，会检查是否存在描述符，检查是否设置（writable），如果不可设置，在非严格模式下静默失败，在严格模式中抛出typeerror异常错误
+
+
+getter和setter
+
+定义一个可获取属性值的方法（getter），定义一个可设置属性值的方法（setter）
+
+
+    let obj1 = { 
+        key: "hallo",
+        get a(){
+            return this.key
+        },
+        set b(abc){
+            this.key = abc
+        }
+    }
+    console.log(obj1.a) // hallo
+    obj.b = "hahaha"
+    console.log(obj1.a) // hahaha
+
+
+正确地判断属性是否存在，属性值可设置为undefined，并不一定是属性不存在导致返回的undefined,解决这种情况有2种方法，一个是通过in操作符（可通过原型链查找），另一个是通过Object.hasOwnProperty()，Object.hasOwnProperty()只检查该属性是否存在该对象中，例如：
+
+    let obj1 = {
+        key: 123
+    }
+    ("key" in obj1)
+    obj1.hasOwnProperty("key")
+
+注意：hasOwnProperty方法是object对象的内置方法，如果没有链接到object原型链上的对象，是不能使用该方法的，只能通过借用方法来使用该方法，例如：Object.prototype.hasOwnProperty. call(obj1,"key")
+
+
+检查该属性是否可枚举
+
+    obj1.propertyIsEnumerable("key") // 返回布尔值，检查该属性是否直接存在于对象中（并不在原型链中，并且可枚举）
+    Object.keys(obj1) // 返回数组，该数组的元素为该对象全部可枚举属性
+    Object.getOwnPropertyNames(obj1) // 返回数组，该数组的元素为该对象属性，不管是否可枚举，并不会返回原型链的属性，只返回该对象中直接包含的属性
+
+
+遍历数组（forEach()，every()，some()）
+
+
+forEach()遍历数组中全部值，并且忽略回调函数的返回值
+
+every()运行到回调函数返回false
+
+some()运行到回调函数返回true
+
+for of()语句会向被遍历对象请求迭代器对象，然后通过迭代器对象的next()来遍历全部返回值
+
+
+
+类，继承，实例化
+
+
+类简单来说就是蓝图，而实例化就是根据蓝图建造出房子
+
+继承是指一个子类继承了一个父类的特性（属性以及方法都被继承，当然也可以重写属性和方法），父类和子类不存在直接关系，而且父类和子类的构造函数可通过prototype联系到
+
+
+方法的多态性（取决于在哪个类的实例使用它）
+
+
+js并不支持多态，多态（或者理解为重载）实质上就是重写父类的方法，然后通过不同的类实例化，引用不同类的实例下的同名方法
+
+在继承链中不同级别（子类，父类，祖先类）的同一个方法名可以被多次定义，调用的是哪个方法取决于是通过哪个类实例化出来的
+
+
+原型
+
+当获取一个对象的属性时，但是这个属性并不直接存在于该对象中时，就会访问对象的prototype链中，例如：
+
+    let obj = {
+        a: "hallo word",
+    };
+    let obj1 = Object.create(obj)
+    console.log(obj1.a)
+
+上面例子中通过Object.create()创建来一个obj1.prototype可以连接到obj中的对象，哪怕obj1.a并没有在该对象中定义该属性，还是可以通过obj1.prototype获取到obj.a的属性值
+
+原型链查找的终点是Object.prototype，如果还是没有找到就返回undefined
+
+如果原型链底层中的对象存在原型链高层的相同属性名时，将会屏蔽高层的属性，因为原型链只获取最近的一个属性
+
 
 ---
 
-高阶函数（惰性函数/柯理化函数/compose组合函数）
+PWA，Progressive Web App（渐变式web应用），pwa技术可以将web应用具备接近原生应用的特性和用户体验，无需额外安装，支持离线缓存，消息推送等功能
+
+pwa可通过Service Worker来进行下载，打开pwa应用后，
+
+Service Worker：服务工作线程，独立于主线程，常驻内存，代理网络请求，依赖于HTTPS通信
+
+manifest.json：让web应用具备app的效果，例如logo，启动页面
+
+
+
+
+---
+
+高阶函数（惰性函数/柯里化函数/compose组合函数）
+
+
+
+Compose（组合函数）
+
+组合函数顾名思义，就是将多个函数组合在一起，当一个函数的参数是另一个函数的返回值时，导致复杂的嵌套关系例如“funs(a(b(c)))”，而Compose可以做到调用函数的扁平化，例如：
+
+    function compose(...funs){
+        return function(...abc){
+            if(funs.length === 0){
+            return funs
+            }
+            if(funs.length === 1){
+                return funs[0]
+            }
+            return funs.reduce(function(a,b){
+                console.log(a)
+                console.log(b)
+                if(typeof a === "function"){
+                    return b(a(...abc))
+                }else{
+                    return b(a)
+                }
+            })
+        }
+    }
+    function a(x){
+        return x + 100
+    }
+    function b(x){
+        return x * 100
+    }
+    function c(x){
+        return x - 100
+    }
+    function d(x){
+        return x / 100
+    }
+    function e(x){
+        return x % 100
+    }
+    let abc = compose(a,b,c,d,e)(1000)
+    let xyz = compose(a)(1000)
+    let hhh = compose(a,b)(1000)
+    console.log(xyz)
+    console.log(hhh)
+    console.log(abc)
+    console.log(a(b(c(d(e(1000)))))) //对比一下正确的答案
+
+
+
+
+
+惰性函数
+
+柯里化函数
+
+
 
 
 ---

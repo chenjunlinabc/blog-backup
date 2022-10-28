@@ -1,6 +1,6 @@
 ---
 title: "Docker容器的简单使用"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "docker" ]
 draft: false
 slug: "18"
@@ -67,11 +67,21 @@ sudo apt install ca-certificates curl gnupg lsb-release
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
+
+配置稳定Docker CE源
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian \
+   $(lsb_release -cs) \
+   stable"
+
+
+
 安装docker引擎
 
 sudo apt install docker-ce docker-ce-cli containerd.io
 
-或者
+或者直接使用docker官方提供的sh脚本
 
 curl -s https://get.docker.com | sh （不推荐使用）
 
@@ -654,6 +664,67 @@ CAdvisor+InfluxDB+Granfana(CIG重量级容器监控)
 
 
 
+
+
+
+
+docker依赖多种namespace来进行隔离（例如User Namespace，容器用户和宿主用户隔离，process id Namespace，隔离进程id，network Namespace，隔离网络设备，端口号，mount Namespace，隔离挂载等等），依赖于cgroup进行资源管理和控制（例如cpu，内存），namespace和cgroup都由自Linux内核提供
+
+docker使用了6种namespace，分别是，mount namespace，uts namespace，ipc namespace，network namespace，pid namespace，user namespace
+
+
+mount Namespace：隔离不同进程的挂载数据，保证容器的挂载操作不会影响到宿主的挂载
+
+sudo unshare --mount --fork /bin/bash # 创建一个mount Namespace，使用/bin/bash进程，在该挂载任何文件，都不会作用于宿主
+
+pid namespace是隔离进程的pid的，也就是说宿主是看不到容器的应用pid，容器也看不到宿主的pid
+
+sudo unshare --pid --fork  --mount-proc /bin/bash 
+
+安全容器：容器运行在虚拟机中，具备虚拟机的安全隔离性，例如kata Container，使用guest kernel（精简了内核，专门提供给容器运行，减低资源的消耗）
+
+因为docker容器共享宿主内核，存在安全性，所以可使用安全容器来隔离宿主内核，安全容器的内核是完全独立于宿主的内核（虚拟化技术）
+
+
+docker容器资源限制
+
+docker run -it --cpus=4 -m=8192 --pids-limit=1000 ubuntu /bin/bash # 启动ubuntu镜像，使用/bin/bash作为终端，资源被设置为4核8g，并且只能创建1000个pid
+
+docker stats ubuntu # 查看容器的资源使用情况
+
+
+
+cAdvisor是谷歌开源的容器监控工具，不但可以监控容器的资源使用情况，还可以监控宿主的资源使用情况，可查看容器的历史资源使用情况
+
+
+    docker run \
+    --volume=/:/rootfs:ro \
+    --volume=/var/run:/var/run:ro \
+    --volume=/sys:/sys:ro \
+    --volume=/var/lib/docker/:/var/lib/docker:ro \
+    --volume=/dev/disk/:/dev/disk:ro \
+    --publish=8080:8080 \
+    --detach=true \
+    --name=cadvisor \
+    --privileged \
+    --device=/dev/kmsg \
+    gcr.io/cadvisor/cadvisor:$VERSION
+
+
+访问http://localhost:8080
+
+
+容器的资源限制通过/sys/fs/cgroup/memory/docker下的，目录名为容器id，其中memory.limit_in_bytes是该容器的内存限制文件，memory.usage_in_bytes是该容器的内存使用情况，proc/容器的pid/net/dev是该容器的网络使用情况，cpuset.cpus是cpu限制使用核数，cpu.cfs_period_us是一个cpu核心的带宽（单位微秒，容器的cpu总带宽=cpu核心数*单个cpu核心的带宽），cpu.cfs_quota_us是可使用cpu带宽（单位微秒，-1为不限制）
+
+
+容器监控工具实质上是通过读取和记录宿主的文件来显示容器资源情况的，所以启动容器监控工具，要映射数据卷/sys:到容器中
+
+
+
+---
+
+
+
 kubernetes简称k8s，用来自动化容器的部署，监控，容器负载均衡等等
 
 master是容器集群的控制系统，可以用来监控容器的状态，调度负载均衡
@@ -663,3 +734,43 @@ node是k8s的工作节点，可以接收master的指令，根据指令来创建�
 Pod是容器的容器，可以包含多个容器，是k8s中最小的可部署单元，pod内部的网络是互通的，每一个pod都有自己的虚拟ip
 
 k8s将弃用dockershim（dockershim是k8s内置的一个组件，该组件可让k8s能够通过CRI（Container Runtime Interface）来操作docker）
+
+
+
+---
+
+
+
+安装docker
+
+配置docker
+
+添加docker官方GPGkey
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo apt-key fingerprint 0EBFCD88
+
+安装依赖
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
+设置docker仓库
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+重新加载源
+
+sudo apt update
+
+如果报错，可以手动在/etc/apt/source.list添加
+
+deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+
+sudo apt dist-upgrade（智能处理包依赖，会自己安装新软件或者删除原有软件包来完成升级）
+
+安装docker
+
+sudo apt install docker-ce docker-ce-cli containerd.io
+
+
