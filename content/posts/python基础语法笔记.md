@@ -21,7 +21,9 @@ sudo gedit ~/.bashrc
 
 export PATH="/home/pc/anaconda3/bin:$PATH"
 
-\# pc为系统的用户名，请修改成自己的系统用户名，请勿在root用户下安装anaconda3
+pc为系统的用户名，请修改成自己的系统用户名，请勿在root用户下安装anaconda3
+
+注意：如果使用anaconda3，请设置Path环境变量，/Anaconda3，/Anaconda3/Scripts，/Anaconda3brary/bin，这3个路径都需要设置
 
 Windows和mac 到官网下载安装包，直接下一步安装
 

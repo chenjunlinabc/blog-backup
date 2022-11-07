@@ -1,6 +1,6 @@
 ---
 title: "Nginx服务器的一些简单配置"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "server" ]
 draft: false
 slug: "34"

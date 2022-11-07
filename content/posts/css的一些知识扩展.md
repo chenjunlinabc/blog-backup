@@ -341,5 +341,15 @@ devicePixelRatio（比例） = device pixels（设备物理像素） / device-in
 devicePixelRatio比例可直接通过执行window.devicePixelRatio得到（在我这边为1.75，说明css的1px等于设备的1.75px）
 
 
+---
 
 
+clamp()，限制一个值在最小值，最大值之间，有3个参数，最小值，首选值，最大值
+
+    width: clamp(1rem,10px,5rem);
+
+当首选值在最大和最小之间时，选择首选值
+
+当首选值比最大值大时，使用最大值
+
+当首选值比最小值小时，使用最小值

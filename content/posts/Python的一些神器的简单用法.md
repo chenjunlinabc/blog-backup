@@ -333,6 +333,8 @@ document.save("hallo.docx")
 
 xlrd模块+xlwt模块(操作xlsx)
 
+注意：xlrd模块只有低于或等于1.2.0版本才能操作xlsx文件，高于该版本只支持xls文件，或者使用openpyxl代替xlrd模块
+
 导入xlrd模块
 import xlrd
 

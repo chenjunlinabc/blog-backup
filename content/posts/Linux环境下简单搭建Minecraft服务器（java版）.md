@@ -1,6 +1,6 @@
 ---
 title: "Linux环境下简单搭建Minecraft服务器（java版）"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "server" ]
 draft: false
 slug: "33"

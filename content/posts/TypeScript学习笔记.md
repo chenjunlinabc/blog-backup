@@ -893,6 +893,475 @@ TypeScript不需要通过extends继承来确定，而是通过类型结构（str
 
 
 
+---
+
+
+
+ts允许符合一个接口的前提下扩展，但是有个例外，不允许使用字面量的方式（但是可以使用as和<>类型断言来允许）
+
+可索引接口，索引签名
+
+函数接口
+
+    let abc:(a:number,b:number)=> number
+    interface abc{
+        (a:number,b:number):number
+    }
+
+函数接口的实现要求形参和实参必须一一对应（可选参数和剩余参数（扩展）除外）
+
+
+函数重载（ts允许函数名相同，但是参数个数和类型不相同）
+
+
+    function abc(...a: number[]): number
+
+    function abc(...a: string[]): string
+
+    function abc(...a: any[]):any{
+        let xyz = a[0]
+        if(typeof xyz === 'string'){
+            return a.join('')
+        }
+        if(typeof xyz === 'number'){
+            return a.reduce((x,y)=>x+y)
+        }
+    }
+
+
+
+多态：通过父类抽象方法，让子类可以重写该方法
+
+类接口和实现的成员修饰符必须相等，不能接口是公有属性，实现变成的私有属性
+
+接口可以继承多个接口，多个接口用逗号分隔，而且该接口的实现必须满足多个接口的要求
+
+接口也可以继承类，一个子类可以继承父类的同时还可以实现接口
+
+接口只能约束类的公有成员，接口可以抽离类的公有，私有，受保护成员
+
+
+
+
+ts类型检查机制：类型推断，类型兼容性，类型保护
+
+类型推断：ts可以根据规则来自动推断出一个类型，基础类型推断，最佳通用类型推断，以及上下文类型推断
+
+
+类型断言可以覆盖ts的自动类型推断，错误的类型断言很危险
+
+
+类型兼容：ts允许一个子类类型兼容父类
+
+
+    type a = {
+        aa: number
+    }
+    type b = {
+        aa: number,
+        ab: string
+    }
+
+    let abc: a = {aa:1}
+    let xyz: b = {aa:2,ab:'hallo'}
+    abc = xyz
+    // xyz = abc 不兼容，因为abc不符合xyz类型的要求，但是xyz符合abc的类型（在满足类型要求上扩展类型）
+
+
+源类型满足目标类型的要求时，源类型可以赋值给目标类型
+
+
+函数类型兼容：源函数参数个数必须小于等于目标函数，固定参数可以兼容可选参数和扩展参数，但是可选参数是不兼容固定参数和扩展参数的，扩展参数兼容固定参数和可选参数，而且参数类型必须匹配
+
+
+    let abc = (a:number,b:number) =>{}
+    let xyz = (a:number) =>{}
+    abc = xyz
+
+接口的类型兼容：a接口的定义满足b接口的定义时，a的实现可以赋值给b的实现（多兼容少的）
+
+    interface A{abc: number}
+    interface B{abc: number,xyz: string}
+    let a = (abc: A) => {}
+    let b = (abc: B) => {}
+    b = a
+
+
+
+类型保护：在某个特定的区块中保证变量属性某个确认的类型，在该区块可以放心使用该类型的属性和方法
+
+可以用类型也可以用类
+    if(abc instanceof number){}else{}
+
+对象属性
+    if('data' in abc){}else{}
+
+基本类型
+    if(typeof a === 'string'){}else{}
+
+
+类型位词
+
+    function isnumber(a: abc | xyz): a is number{
+        return (a as abc).data !== undefined
+    }
+
+通过返回值来确定类型
+
+
+高级类型（这些高级类型更像是工具类型）
+
+交叉类型与联合类型
+
+
+    interface A{abc: number}
+    interface B{abc: number,xyz: string}
+    let hhh : A & B = {
+        abc: 123,
+        xyz: 'hallo'
+    }
+
+hhh实现具备了A和B接口全部特性，交叉类型是取全部接口的并集
+
+
+    let a: number | string = 'hallo'
+
+联合类型还可以通过字面量来限制变量的取值
+
+    let  a: 1 | 2 | 3
+
+
+联合类型对于类只能访问其共有成员（取交集）
+
+
+    class a{
+        data(){}
+        abc(){}
+    }
+    class b{
+        data(){}
+        xyz(){}
+    }
+    enum gg{a,b}
+    let hhh = gg.a ? new a() : new b{}
+    hhh.data()
+
+
+也可以利用联合类型来根据共用成员的值来做类型保护区块
+
+
+
+
+索引类型（对于索引做类型约束）
+
+    interface B{abc: number,xyz: string}
+    let key: keyof B
+
+    let value: B['abc']
+
+    let obj={a:'hallo',b:'abc',c:'xyz'}
+    function get<T, K extends keyof T>(obj: T,keys:K[]): T[K][]{
+    return keys.map(key => obj[key])    
+    }
+    get(obj,['a','b','c'])
+
+当索引不存在的属性时，ts会报错提示
+
+
+
+映射类型
+
+    interface A{abc: string,xyz: number, hhh: boolean}
+    type a = Readonly<A>
+
+可以看到类型别名a是对于属性是只读的
+
+Readonly的实现是索引类型
+
+    type Readonly<T> ={readonly [P in keyof T]: T[P]}
+
+把接口属性变成可选的
+
+    type b = Partial<A>
+
+Partial的实现
+
+    type Partial<T> = {[P in keyof T]?: T[P]}
+
+Required将接口属性变成必选
+
+    type c = Required<A>
+
+Required的实现
+
+     type Required<T> = {[P in keyof T]-?: T[P]}
+
+抽取接口的指定属性，来创建一个新的类型
+
+    type abc = Pick<A,'abc','xyz'>
+
+Pick的实现
+
+    type Pick<T,K extends keyof T> = {[P in K]: T[P]}
+
+Omit去除指定属性，来创建一个新的类型
+
+    type abc = Omit<A,'abc','hhh'>
+
+Omit的实现
+
+    type Omit<T,K extends keyof any> = Pick<T, Exclude<keyof T,K>>
+
+上面的被ts官方叫统态（不会创建新的属性）
+
+Record通过传入的泛型参数来作为接口的属性和值
+
+    interface A{abc: string,xyz: number, hhh: boolean}
+    type xyz = 'a' | 'b' | 'c'
+    let abc: Record<xyz, A> = {
+        a:{
+            abc: 'hallo',
+            xyz: 123,
+            hhh: true
+        },
+        b:{
+            abc: "abc",
+            xyz: 666,
+            hhh: false
+        },
+        c:{
+            abc: 'hhh',
+            xyz: 12345,
+            hhh: false
+        },
+    }
+
+Record的实现
+
+    type Record<K extends keyof any, T> = {[P in K]: T}
+
+
+条件类型
+
+    type A<T> = T extends number ? 'number': T extends string ? 'sting': T extends Function ? 'function': 'object'
+    type Ta = A<string>
+    type Tb = A<Function>
+
+
+分布式条件类型
+
+    type Tc = A<string | number>
+
+下面的例子中diff可以过滤掉T可以赋值给U的属性
+
+    type diff<T,U> = T extends U ? never: T
+    type Ta<T> = diff<T,undefined | null>
+    type Tb = Ta<string | undefined | null | number>
+
+
+ 
+实质上diff类型官方已经提供了，叫Exclude<T,U>
+Ta类型ts官方叫NonNullable<T>
+
+Extract<T,U>是Exclude<T,U>的取反，Extract<T,U>会T抽取出可以赋值给U的类型，例如：
+
+    type Tc = Extract<'a'|'b'|'c','a'|'c'>
+
+
+
+
+ReturnType<T>，获取函数返回值的类型
+
+
+    type Td = ReturnType<()=>string> 
+
+
+ReturnType<T>的实现
+
+    type ReturnType<T extends (...args: any) =>any> = T extends (...args: any) => infer R ? R : any
+
+
+意思是T可以赋值给一个函数，这个函数接收不指定数量的参数，参数类型为any，返回值也是any，利用infer延迟推断类型，如果类型为R就返回R，否则返回any
+
+
+ConstructorParameters获取构造函数的构造参数
+
+    class B{
+        constructor(name: string,pass: string, mail?: string){}
+    }
+    type Bb = ConstructorParameters<typeof B>
+
+ConstructorParameters的实现（通过infer来推断构造参数的类型）
+
+type ConstructorParameters<T extends abstract new (...args: any) => any> = T extends abstract new (...args: infer P) => any ? P : never
+
+Parameters获取函数的参数
+
+    type Tb = Parameters<(a:number,b:string,c?:boolean)=> void>
+
+Parameters的实现
+
+    type Parameters<T extends (...args: any) => any> = T extends (...args: infer P) => any ? P : never
+
+ThisParameterType获取函数的this参数类型
+
+    type Tc = ThisParameterType<(this: number,a: string) => void>
+
+ThisParameterType的实现
+
+    type ThisParameterType<T> = T extends (this: infer U, ...args: never) => any ? U : unknown
+
+ThisType指定this的类型
+
+
+
+OmitThisParameter去除函数中的this类型
+
+    type Te = OmitThisParameter<(this: number, a: string) => string>
+
+OmitThisParameter的实现
+
+    type OmitThisParameter<T> = unknown extends ThisParameterType<T> ? T : T extends (...args: infer A) => infer R ? (...args: A) => R : T
+
+
+
+Uppercase将字符串字面量转换成大写
+
+Lowercase将字符串字面量转换成小写
+
+Capitalize将字符串字面量的第一个字母转换为大写
+
+Uncapitalize将字符串字面量的第一个字母转换为小写
+
+    type Ta1 = Uppercase<'Hello'>
+    type Tb1 = Lowercase<Ta1>
+    type Tc1 = Capitalize<Tb1>
+    type Td1 = Uncapitalize<Tc1>
+
+实现分别为
+
+    type Uppercase<S extends string> = intrinsic
+    type Lowercase<S extends string> = intrinsic
+    type Capitalize<S extends string> = intrinsic
+    type Uncapitalize<S extends string> = intrinsic
+
+
+
+---
+
+declare
+
+
+ts允许声明同名接口，新的同名接口的属性将作为新属性（合并接口），但是不允许重复声明接口的类型，例如：
+
+    interface AA {
+        name: string;
+      }
+    interface AA {
+        id: number;
+    }
+    let aa: AA={
+        name: 'root',
+        id: 1
+    }
+
+
+也可以利用函数重载（后声明的接口具备更高的优先级，请不要在最后面使用泛型，在后面使用泛型会因为优先级的原因导致后面的类型全是泛型）
+
+    interface BB {
+        funs(id: any):any
+    }
+    interface BB {
+        funs(id: string):string
+    }
+    interface BB {
+        funs(id: number):number
+    }
+    let bb: BB ={
+        funs(id:any){
+            return id
+        }
+    }
+    let b1 = bb.funs(1)
+    let b2 = bb.funs('root')
+    let b3 = bb.funs(true)
+
+
+同样，命名空间也可以像这样合并，但是非export成员只能在原本的命名空间可见
+
+注意：当定义了一个类类型时，这个类类型不能合并，因为它是值又是类型的特殊对象
+
+---
+
+tsconfig.json配置文件应用
+
+
+tsconfig.json的核心compilerOptions，compilerOptions的主要配置分别为target（指定ts编译的目标。例如ES2020，ES5，ESNext等等），module（设置ts使用的模块化系统，当target为ES3，ES5时，module默认为Commonjs，当target为es6或者更高时，默认值为ES6，支持ES2020，UMD，AMD，System，ESNext，以及None选项），jsx（指定jsx文件转译为js文件的输出方式，只影响.tsx文件的输出，支持react，react-jsx，react-jsxdev，preserve，react-native），incremental（表示是否启动增量编译，如果为true时，会将上次编译的工程图信息存储在磁盘上），declaration（表示是否为项目的ts或者js文件生成.d.ts文件），sourceMap（是否生成sourcemap文件，sourcemap文件将以.js.map或者.jsx.map的形式被生成与.js文件或者.jsx文件同级目录下，sourcemap文件可以允许调试器和其他工具在生成js文件时，显示原来的ts代码），lib（控制lib.d.ts声明文件的库定义文件，）
+
+
+开启严格模式，strict，为true时
+
+模块解析策略，moduleResolution，当mould配置为AMD，UMD，System，ES6时，默认为classic，否则为node
+
+设置基准目录，baseUrl，解析非绝对路径模块名时的基准目录，当为'./'时，表示在tsconfig.json所在的目录开始查找文件
+
+路径设置，paths，将模块路径映射到相对于baseUrl定位的其他路径配置，例如：
+
+    "paths": {
+          "@src/*": ["src/*"],
+          "@test/*": ["src/test/*"]
+      }
+      ...
+      import test from '@test/main'
+
+
+指定多个目录作为根目录，rootDirs，允许编译器在这些目录中解析相对于的模块导入
+
+指定类型文件的根目录，typeRoots，默认node_modules/@types下的包都是可见的，如果指定了typeRoots将表示从该目录里查找类型文件
+
+
+指定全局范围的包，types，默认情况下typeRoots的包都会被包含到编译过程中，除非指定types，只有列出的包才能被包含在全局范围中，例如：
+
+    "types": ['node','jest','express']
+
+
+allowSyntheticDefaultImports表示是否允许默认导出，当为true时表示一个模块没有默认导出，也认为其他模块也能像默认导出一样导入使用该模块
+
+
+
+esModuleInterop表示是否开启ES模块的互操作，可以使用ES模块的方式导入Commonjs包，当模块没有类型时，可直接require()方式引用，如果具备类型声明，那么需要使用import的方式导入，开启该选项，会默认开启allowSyntheticDefaultImports
+
+
+sourceRoot表示指定调试器需要定位的ts文件位置，而不是相对于源文件的路径
+
+mapRoot表示指定调试器需要定位的sourcemap文件的位置，而不是生成的文件位置
+
+inlineSourceMap是否开启将sourcemap文件内容生成内联字符串的方式写入到对于的js文件中，而不是生成.js.map文件
+
+inlineSources，是否开启将源文件的所有内容生成内联字符并且写入到sourcemap文件中，和inlineSourceMap功能类似
+
+
+
+experimentalDecorators，是否开启装饰器的特性
+
+emitDecoratorMetadata，是否允许装饰器使用反射数据的特性
+
+skipLibCheck，表示是否可以跳过检查声明文件，开启可以省去不少编译时间，但是会牺牲类型系统的准确性
+
+因为ts是大小写敏感的，为了避免开发者在不同大小写敏感规则下的操作系统下开发而导致的问题，可以开启forceConsistentCasingInFileNames，开启该选项表示当开发者正在使用和系统不一致的大小写入规则时，会抛出错误
+
+files表示指定ts项目需要包含的文件列表
+
+include表示指定需要包含在ts项目的文件或者文件匹配路径，如果配置了files，那么默认值为[]，如果没有设置默认值为['**/*']，就是包含目录下的所有文件
+
+exclude表示指定解析include配置中需要跳过的文件或者文件匹配路径，例如node_modules
+
+
+
+extends配置指为字符串，表示声明当前配置需要继承另一个配置的路径，ts会向加载extends的配置文件，在使用当前的tsconfig.json文件的配置来覆盖继承文件里的配置
+
+
+
 
 
 

@@ -1,12 +1,11 @@
 ---
 title: "XML学习笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "xml" ]
 draft: false
 slug: "17"
-date: "2021-06-16 09:32:49"
+date: "2021-06-16 09:32:00"
 ---
-
 
 
 xml中文全称为可扩展标记语言（Extensible Markup Language）

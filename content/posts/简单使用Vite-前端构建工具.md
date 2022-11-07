@@ -1,6 +1,6 @@
 ---
 title: "简单使用Vite-前端构建工具"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "Vite" ]
 draft: false
 slug: "87"
@@ -9,7 +9,7 @@ date: "2021-08-18 14:20:00"
 
 Vite是由 Vue.js 的作者尤雨溪开发完成的一款前端项目构建工具，使用原生ESM文件，支持热重载
 
-Vite在法语中的意思为快速的（尤大是真喜欢法语啊）
+Vite在法语中的意思为快速的
 
 基于原生 import 的，使用浏览器来解析import，服务端按需编译返回，支持热更新模块
 
@@ -52,11 +52,11 @@ vite将模块分为依赖和源码，依赖指的是开发时不会发生改变�
 
 构建Vite项目
 
-npm init vite-app demo
+npm create vite
 
 或者
 
-yarn create vite-app demo
+yarn create vite
 
 然后初始化一下
 
@@ -91,7 +91,9 @@ vite build
 react
 
 
-npm init vite-app --template react
+npm create vite
+
+选择react，如果需要ts，也可以选择ts
 
 npm install
 
@@ -236,8 +238,77 @@ yarn add typescript -d
     }
 
 
+---
 
 
+vite集成eslint和pritter
+
+安装依赖
+
+npm install eslint-config-standard eslint-plugin-import eslint-plugin-promise eslint-plugin-node -d
+
+.eslintrc.js，使用standard规则
+
+    module.exports = {
+        extends: 'standard',
+    }
+
+.pritterrc（搭配vsc插件pritter使用，prettier用来格式化）
+
+    {
+        'semi': false,
+        'singleQuote': true
+    }
+
+vsc打开设置，搜索format on save，构选，再搜索formatter，选择prettier插件，保存时将会使用prettier进行代码格式化（让代码符合eslint规则）
+
+
+
+---
+
+
+vite的HMR热更新API
+
+import.meta可以返回当前模块的信息，需要在模块内部使用，由ECMAScript实现这个功能
+
+    <script type='module'>
+        console.log(import.meta)
+    </script>
+
+可以看到其返回的是一个对象，该对象有个url属性，这个url属性指向了模块的url，这个对象可以进行扩展
+
+vite通过扩展该对象，import.meta.hot手动暴露HMR（获取新的模块），例如：
+
+    if(import.meta.hot){
+        import.meta.hot.accept((newMod) =>{
+            newMod.Dom()
+        })
+    }
+
+原理是服务端发现模块更新了，发送一个事件给客户端，客户端知道模块更新了，就通过发送请求获取最新的文件，将老的模块替换成新的，就实现热更新功能了
+
+
+
+vite批量导入
+
+    const mods = import.meta.glob('./src/*')
+    console.log(mods)
+
+可以看到输出了一个键值对，键为文件名，值为该文件的import
+
+
+    Object.entries(mods).forEach([a,b]) =>{
+        b().then(mod => {
+            console.log(mod.default)
+        })
+    }
+
+
+
+
+预编译（运行vite项目，会在node_modules下创建一个.vite文件夹，这个文件夹是vite的依赖，直接读取这个依赖就可以了）
+
+预编译的另一个作用是可以将多个依赖文件整合成一个文件，可以通过optimizeDeps，exclude禁止预编译某个依赖来查看
 
 
 

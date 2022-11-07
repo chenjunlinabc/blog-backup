@@ -1,6 +1,6 @@
 ---
 title: "node.js包管理工具npm的简单使用"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "node.js","npm" ]
 draft: false
 slug: "31"

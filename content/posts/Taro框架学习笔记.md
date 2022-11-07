@@ -91,6 +91,21 @@ Taro组件化（Taro可以使用react开发，因此也具备react的组件化�
     }
     export default Data
 
+如果使用类组件的话，需要导入Component基础类，并且类组件需要继承该基础类，例如：
+
+    import Taro, { Component } from '@tarojs/taro'
+    class Data extends Component{
+        config = {
+            navigationBarTitleText: 'hallo word'
+        }
+        render(){
+            return ( 
+                <View><Text>hallo word</Text></View>
+            )
+        }
+    }
+    export default Data
+
 
 导入
 
@@ -119,6 +134,7 @@ import Data from './data.jsx'
 
 Taro路由（通过app.jsx的pages，谁在第一个数组的值，那么该就是默认打开的首页）
 
+taro路由是自带的，只需要在app.js入口文件配置config.pages（pages是数组），就可以使用taro的api来访问路由，例如：
 
     pages: [
         'pages/main/main',
@@ -142,7 +158,7 @@ getCurrentPages：获取当前页面信息（页面栈），注意h5不支持
 
 relaunch：销毁所有页面（关闭）
 
-
+注意：微信小程序存在五层页面限制，要合理使用navigateTo和redirectTo
 
 路由配合页面之间传递参数
 
@@ -357,3 +373,166 @@ props默认值
 
 
 ---
+
+
+条件渲染
+
+三元表达式
+
+     {
+          true?<div>hallo wrod</div:<div>hhh</div>
+     }
+
+短路表达式
+
+     {
+          !true||<div>hallo wrod</div>
+     }
+
+
+
+---
+
+
+列表渲染
+
+     state = {
+          list: [
+               {id:1,name:'root'},
+               {id:2,name:'abc'},
+               {id:3,name:'test'}
+          ]
+     }
+     ...
+     let {list} = this.state
+     ...
+     {
+          list.map((item, index) =>{
+               return(<div key={index}>{item.name}</div>)
+          })
+     }
+
+---
+
+children传入组件
+
+
+    export default class Test extends Component{
+        render(){
+            return(
+               <View>
+                   {
+                       this.props.texts
+                   }
+                   {
+                       this.props.children
+                   }
+               </View>
+            )
+        }
+    }
+
+调用的时候，直接在父组件使用就可以
+
+    return(
+        <View>
+            <Test texts={<div>hallo wrod</div>}></Test>
+            <Test>hallo 123</Test>
+            <Test>hallo 666</Test>
+        </View>
+    )
+
+
+注意：不要对this.props.children进行任何操作，taro在小程序实现这个功能是利用了插槽Slot功能，而且this.props.children不能使用defaultProps进行设置默认，也不能拆分成变量进行使用，但是允许通过props自定义属性的方式传入组件
+
+
+---
+
+
+事件处理
+
+
+    state = {
+        name: 'root'
+    }
+    test(){
+        console.log(this.state.name)
+    }
+    render(){
+        return(
+            <View>
+                <Button onClick={this.test.bind(this)></Button>
+            </View>
+        )
+    }
+
+
+taro事件函数有个默认参数，event，它指向该事件的具体，可通过event.stopPagenation()来阻止当前事件的事件冒泡
+
+
+注意：taro的全部事件需要用on开头（而且组件传入参数是函数，这个函数也必须是on开头命名的），是为了小程序（因为小程序会认为是字符串），如果不做小程序可以忽略
+
+
+---
+
+
+taro判断当前环境是h5还是小程序（只限制开发环境，生产环境是无效的）
+
+    const ish5 = process.env.TARO_ENV == 'h5'
+    if(ish5){
+        require('./h5.less')
+    }else{
+        require('./noh5.less')
+    }
+
+
+布局推荐使用flex布局
+
+
+---
+
+
+
+
+在taro应用typescript
+
+为非ts项目安装ts依赖
+
+npm install typescript --save
+
+还需要配置tsconfig.json
+
+
+    {
+        "compilerOptions": {
+            "target": "es2017",
+            "module": "commonjs",
+            "removeComments": false,
+            "preserveConstEnums": true,
+            "moduleResolution": "node",
+            "experimentalDecorators": true,
+            "jsxFactory": "Taro.createElement",
+            "noImplicitAny": false,
+            "allowSyntheticDefaultImports": true,
+            "outDir": "lib",
+            "noUnusedLocals": true,
+            "noUnusedParameters": true,
+            "strictNullChecks": true,
+            "sourceMap": true,
+            "baseUrl": ".",
+            "rootDir": ".",
+            "jsx": "preserve",
+            "typeRoots": [
+              "node_modules/@types",
+              "global.d.ts"
+            ]
+        },
+        "compileOnSave": false
+    }
+
+
+
+如果是新建项目，可以在初始化时指定需要使用typescript
+
+
+编译ts文件完成，也是放到dist目录下

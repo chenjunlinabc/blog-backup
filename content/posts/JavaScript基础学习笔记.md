@@ -10,10 +10,10 @@ date: "2021-06-24 07:57:00"
 插入js
 
 在html页面使用js
-<script type="text/javascript"></script>
+    <script type="text/javascript"></script>
 
 引用js文件
-<script src=""><script>
+    <script src=""><script>
 
 
 注释
@@ -397,14 +397,6 @@ clearInterval(清除定时器);
 
 
 
-
-
-
-
-
-
-
-
 DOM
 
 document.getElementById(); // id选择器
@@ -417,3 +409,101 @@ document.body.appendChild();
 addEventListener(); //添加点击事件
 
 innerText(); // 添加文本
+
+
+
+
+---
+
+
+
+
+
+
+
+
+ES6模块化
+
+export语法
+
+export default默认导出
+
+export abc需要使用import { abc } form './test.js'的方式导入
+
+babel编译功能
+
+npm install --save-dev babel-core babel-preset-es2015 babel-preset-latest
+
+npm install --global babel-cli
+
+.babelrc文件
+
+    {
+        'presets': ['es2015','latest'],
+        'plugins': []
+    }
+
+
+webpack
+
+npm install webpack babel-loader --save-dev
+
+webpack.config.js配置文件
+
+
+rollup打包工具
+
+npm install rollup rollup-plugin-node-resolve rollup-plugin-babel babel-plugin-external-helpers babel-preset-latest babel-core --save-dev
+
+rollup.config.js配置文件
+
+    import babel form 'rollup-plugin-babel'
+    import resolve form 'rollup-plugin-node-resolve'
+    export default{
+        entry: 'src/index.js',
+        format: 'umd',
+        plugins: [
+            resolve(),
+            babel({
+                exclud: 'node_modules/**'
+            })
+        ],
+        dest: 'build/bundle.js'
+    }
+
+
+rollup -c rollup.config.js
+
+
+AMD模块化标准，nodejs模块化标准（CommonJS），ES6模块化标准，兼容模块化UMD
+
+
+class实质上是构造函数的语法糖，构建器constructor就是构造函数，不过class的方法是在类内部创建的，而构造函数是通过扩展原型的方式（prototype），让实例具备该方法
+
+构造函数等于构造函数的原型的构造器（prototype.constructor）
+
+实例.__proto__等于构造函数的原型
+
+构造函数继承（同时也是class继承的原理）
+
+Abc.prototype = new Xyz()
+
+这样Abc构造函数就可以继承Xyz构造函数的属性和方法
+
+promise
+
+---
+
+
+原型
+
+异步
+
+虚拟DOM
+
+
+MVVM
+
+组件化
+
+hybrid

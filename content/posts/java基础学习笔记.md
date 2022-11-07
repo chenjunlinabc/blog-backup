@@ -1,5 +1,5 @@
 ---
-title: "java基础学习笔记"
+title: "JAVA基础学习笔记"
 categories: [ "学习" ]
 tags: [ "java" ]
 draft: false
@@ -11,6 +11,8 @@ java基于java虚拟机（Java Virtual Machine，JVM）和java应用编程接口
 
 
 java的跨平台得益于java虚拟机，只需要编译一次java程序，就可以在不同系统的java虚拟机上运行
+
+java编译成字节流，java虚拟机通过解析这些字节流来做的跨平台，编译完成得到的字节流可以在不同平台的java虚拟机上跑
 
 
 java分为Java SE、Java EE 和 Java ME。

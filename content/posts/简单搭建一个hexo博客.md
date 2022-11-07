@@ -1,6 +1,6 @@
 ---
 title: "简单搭建一个hexo博客"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "hexo" ]
 draft: false
 slug: "26"

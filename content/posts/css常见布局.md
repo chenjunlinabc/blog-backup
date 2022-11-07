@@ -1,6 +1,6 @@
 ---
 title: "css常见布局"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "css" ]
 draft: false
 slug: "24"

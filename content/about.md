@@ -16,8 +16,8 @@ date: 2022-04-17T22:50:06+08:00
 
 本站未注明转载的文章均为原创，转载请标明来源
 
-本站是主站（cjlio.com）备份站点
 
+本站点基于hugo构建
 
 
 ---
@@ -46,6 +46,10 @@ APP&小程序：Flutter，Taro
 看完的小说：全职法师，雪鹰领主，吞噬星空，星辰变，牧龙师
 
 目前在看小说：完美世界
+
+Github提交活跃：
+
+<img alt="chenjunlinabc's Github chart" src="https://ghchart.rshah.org/chenjunlinabc" />
 
 
 ---

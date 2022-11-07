@@ -1,6 +1,6 @@
 ---
 title: "JavaScript的一些基础知识扩展"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "JavaScript" ]
 draft: false
 slug: "32"

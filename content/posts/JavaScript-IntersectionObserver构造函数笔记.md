@@ -1,12 +1,11 @@
 ---
 title: "JavaScript-IntersectionObserver构造函数笔记"
-categories: [ "默认" ]
+categories: [ "学习" ]
 tags: [ "JavaScript" ]
 draft: false
 slug: "16"
-date: "2021-06-16 09:29:56"
+date: "2021-06-16 09:29:00"
 ---
-
 
 
 IntersectionObserver是浏览器本身提供的构造函数，因此可能有一些老版本浏览器没有效果

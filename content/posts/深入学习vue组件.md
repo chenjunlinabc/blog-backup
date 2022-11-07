@@ -364,6 +364,35 @@ provide/inject
 这里只是举个例子，如果是多层组件结构，这个方法也是可以发送和接收到的，只需要provide发送一下数据，然后子组件inject接收一下
 
 
+
+
+--
+
+
+
+Vue.extend()，vue基础构造器，会创建一个子类，参数是包含组件的对象，例如：
+
+    <div id='app'>
+    </div>
+    <script>
+        const Test = Vue.extend({
+            template: '<p>{{a}} {{b}} {{c}}</p>',
+            data: function () {
+                return {
+                    a: 'hallo',
+                    b: 'abc',
+                    c: 'xyz'
+                }
+            }
+        })
+        new Test().$mount('#app')
+    <script>
+
+
+
+
+
+
 ---
 
 受控组件和非受控组件
