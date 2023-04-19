@@ -7,7 +7,7 @@ slug: "128"
 date: "2022-01-16 09:08:00"
 ---
 
-这篇笔记是进阶学习，如果基础没有看的的话，请去看https://cjlio.com/archives/96.html
+这篇笔记是进阶学习，如果基础没有看的的话，请去看https://xiaochenabc123.test.com/archives/96.html
 
 并发
 
@@ -158,7 +158,7 @@ http服务端
 
 http客户端（get请求，这个东西也可以用来做go爬虫）
 
-    res, err := http.Get("https://cjlio.com")
+    res, err := http.Get("https://xiaochenabc123.test.com")
     if err != nil {
         fmt.Println(err)
     }
@@ -174,7 +174,7 @@ get参数通过r.URL.Query()进行识别
 post请求
 
 
-    resp, err := http.Post("https://cjlio.com", "application/x-www-form-urlencoded", strings.NewReader("test=hallo word"))
+    resp, err := http.Post("https://xiaochenabc123.test.com", "application/x-www-form-urlencoded", strings.NewReader("test=hallo word"))
     if err != nil {
         fmt.Println(err)
     }

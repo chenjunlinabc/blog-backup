@@ -316,7 +316,7 @@ Image.network 加载网络图片
 加载网络图片，例如：
             
     child:new Image.network(
-        'http://cjlio.com/1.jpg',
+        'http://xiaochenabc123.test.com/1.jpg',
     ),
 
 
@@ -334,7 +334,7 @@ ImageRepeat属性可设置图片重复，例如铺满整个容器，fit属性可
 
 
     child:new Image.network(
-        'http://cjlio.com/1.jpg',
+        'http://xiaochenabc123.test.com/1.jpg',
         // ImageRepeat: ImageRepeat.repeat // 横向和纵向重复，直到填满容器
         fit: BoxFit.contain // 显示原比例图片
     ),

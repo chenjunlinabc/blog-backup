@@ -64,7 +64,7 @@ $('div .main')
 
 属性选择器
 
-$("a[href="https://cjlio.com"]") // 选择带href属性的a元素
+$("a[href="https://xiaochenabc123.test.com"]") // 选择带href属性的a元素
 
 
 可以使用前缀或者后缀来选择
@@ -79,7 +79,7 @@ $("div[class=divs]")
 
 多项选择器
 
-$("div[class=divs],a[href="https://cjlio.com")
+$("div[class=divs],a[href="https://xiaochenabc123.test.com")
 
 多项选择器就是将多个选择器用逗号组合起来
 

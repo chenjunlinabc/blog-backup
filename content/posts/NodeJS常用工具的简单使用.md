@@ -7,9 +7,9 @@ slug: "105"
 date: "2021-09-16 21:55:00"
 ---
 
-npm在这里https://cjlio.com/archives/31.html
+npm在这里https://xiaochenabc123.test.com/archives/31.html
 
-Yarn在这里https://cjlio.com/archives/38.html
+Yarn在这里https://xiaochenabc123.test.com/archives/38.html
 
 
 

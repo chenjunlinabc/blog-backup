@@ -52,7 +52,7 @@ git clone https://github.com/miiiku/hugo-theme-kagome.git ./themes/kagome
 
 
 
-baseURL = 'https://blog.cjlio.com'
+baseURL = 'https://blog.xiaochenabc123.test.com'
 languageCode = 'zh-CN'
 title = '小陈的博客'
 theme = "kagome"

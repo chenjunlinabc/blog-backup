@@ -33,7 +33,7 @@ CSRF实质上就是盗用身份，来实现发送恶意请求
 JavaScript简单实现方法
 
     let referer = document.location.href;
-    if(referer != null && referer.startsWith("https://cjlio.com")){
+    if(referer != null && referer.startsWith("https://xiaochenabc123.test.com")){
         console.log("验证成功!!!")
     }else{
          console.log("验证失败!!!")

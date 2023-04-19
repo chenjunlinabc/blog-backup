@@ -13,7 +13,7 @@ accesskey
 
 定义快捷键获取焦点，例如
 
-    <a href="https://cjlio.com" accesskey="q">GO\</a>
+    <a href="https://xiaochenabc123.test.com" accesskey="q">GO\</a>
 
 按ait+q，就会跳到指定的网页上
 
@@ -58,7 +58,7 @@ tabindex
 
 指定tab键的焦点控制，例如
 
-    <a href="https://cjlio.com" tabindex="1">GO</a>
+    <a href="https://xiaochenabc123.test.com" tabindex="1">GO</a>
 
 使用键盘的tab键盘，触发（不会跳转到网页，只是焦点）
 

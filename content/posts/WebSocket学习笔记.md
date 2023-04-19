@@ -7,7 +7,7 @@ slug: "158"
 date: "2022-11-05 14:00:00"
 ---
 
-HTTP协议实质上就是半双工信道，无法同时发送数据和接收数据，而且HTTP连接必须是客户端发起，由服务器来进行处理响应
+HTTP1.1协议实质上就是半双工信道，无法同时发送数据和接收数据，而且HTTP连接必须是客户端发起，由服务器来进行处理响应，只有HTTP2.0才是全双工信道（不需要等待响应，就可以发送第二个报文）
 
 WebSocket是全双工信道，而且还支持服务端主动发送数据给客户端，是服务器推送技术（还是需要客户端发起连接）
 
@@ -134,7 +134,7 @@ app.js
             name: 'root',
             age: 20,
             pass: '123456',
-            email: 'a@cjlio.com',
+            email: 'a@xiaochenabc123.test.com',
             key: 'hallo word'
         }
         const data = JSON.stringify(obj)
@@ -166,8 +166,47 @@ app.js
     }
 
 
-Socket.IO用法
+---
 
-安装
+Socket.io基于WebSocket协议，提供HTTP长轮询（当前客户端不支持WebSocket时）和自动重新连接（提供心跳机制，定期检查连接，连接断开时会进行重新连接操作），和ws模块不同的是，Socket.io提供客户端功能，实质上Socket.io使用的是WS模块提供的WebSocket服务（默认情况），也是可以使用µWebSockets.js提供的WebSocket服务
+
+服务端
 
 npm install socket.io
+
+server.js
+
+    import { Server } from 'socket.io'
+    const io = new Server(3000)
+    io.on('connection', socket => {
+        console.log('已成功连接')
+        // 服务端给客户端发送消息
+        console.log('正在发送消息')
+        socket.emit('hallo','word')
+        console.log('发送消息完成')
+        // 服务端接收消息
+        socket.on('abc',(arg) => {
+            console.log(arg)
+        })
+        socket.on('disconnect', () => {
+            console.log('连接已断开')
+        })
+    })
+
+
+
+
+客户端
+
+npm install socket.io-client
+
+client.js
+
+    import { io } from 'socket.io-client'
+    // const socket = io()
+    const socket = io('ws://127.0.0.1:3000')
+    // 客户端接收消息
+    socket.on('hallo',(arg) =>{
+        console.log(arg)
+    })
+    socket.emit('abc','xyz')

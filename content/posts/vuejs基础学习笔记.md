@@ -55,7 +55,7 @@ vue本身携带了一些指令，主要特征就是带有v-前缀，用来渲染
         const hallo ={
             data() {
                 return {
-                    url:"https://cjlio.com",
+                    url:"https://xiaochenabc123.test.com",
                     main: "小陈的辣鸡屋"
                 }
             }
@@ -481,8 +481,8 @@ abc组件分享了数据给test组件
         data() {
             return {
                 datas: [
-                    {id: 1, url: "https://cjlio.com", text: "hallo"},
-                    {id: 2, url: "https://test.cjlio.com", text: "abcxyz"}
+                    {id: 1, url: "https://xiaochenabc123.test.com", text: "hallo"},
+                    {id: 2, url: "https://test.xiaochenabc123.test.com", text: "abcxyz"}
                 ]
             }
         }
@@ -501,7 +501,7 @@ abc组件分享了数据给test组件
  props中的值进行验证，例如：
 
     <div id="app">
-        <test text="123" url="https://cjlio.com" main="yes" ifmain=11></test>
+        <test text="123" url="https://xiaochenabc123.test.com" main="yes" ifmain=11></test>
     </div>
     <script>
     const app = Vue.createApp({})
@@ -563,7 +563,7 @@ vuejs事件修饰符
 .prevent：拦截默认事件的发生，有一些标记拥有自身的默认事件，例如a标记，例如：
 
     <div id="app">
-        <a href="https://cjlio.com" @click.prevent = "alinkclick">{{data}}</a>
+        <a href="https://xiaochenabc123.test.com" @click.prevent = "alinkclick">{{data}}</a>
     </div>
     <script>
         const hallo ={

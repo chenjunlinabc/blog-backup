@@ -13,8 +13,11 @@ Taro可以使用React/Vue等前端框架开发的，当然typescript肯定是支
 
 Taro官方文档：https://taro-docs.jd.com/taro/docs/README
 
+Taro官方组件库：https://taro-ui.jd.com/
 
 Taro支持微信小程序，百度小程序，支付宝小程序，字节小程序，QQ轻应用，ReactNatvie等等
+
+Taro 1.2支持将已有的微信小程序进行转换，只需要在项目根目录运行taro convert命令就可以在将现有的小程序项目转换到taroConvert目录下，转换成jsx代码，并且可以直接使用这个代码来进行taro build来编译成taro支持的平台应用
 
 
 安装Taro框架

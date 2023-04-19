@@ -276,7 +276,7 @@ Next会自动完成路由配置
     import axios from 'axios'
     Demo.getInitialProps = async ()=>{
         const promise =new Promise((resolve)=>{
-                axios('https://cjlio.com/feed/').then(
+                axios('https://xiaochenabc123.test.com/feed/').then(
                     (res)=>{
                         console.log('远程数据结果：',res)
                         resolve(res.data.data)

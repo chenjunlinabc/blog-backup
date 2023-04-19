@@ -7,7 +7,7 @@ slug: "138"
 date: "2022-02-28 18:04:00"
 ---
 
-Express是基于nodejs的web应用框架（同时也是node的第三库），同时也是很多web应用框架的底层库
+Express是基于nodejs的web应用框架（同时也是node的第三库），同时也是很多web应用框架的底层库，Express是cjs模块标准的http服务框架
 
 
 安装

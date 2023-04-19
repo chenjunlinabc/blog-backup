@@ -129,7 +129,7 @@ db.test.insert() // 当数据主键已存在，抛出错误
         title: "小陈的辣鸡屋", 
         description: "小陈辣鸡屋",
         by: "小陈的辣鸡屋",
-        url: "https://cjlio.com",
+        url: "https://xiaochenabc123.test.com",
         tags: ["小陈", "hallo", "chenjunlin"],
         likes: 1
     })
@@ -144,7 +144,7 @@ db.test.find()
         title: "小陈的辣鸡屋", 
         description: "小陈辣鸡屋",
         by: "小陈的辣鸡屋",
-        url: "https://cjlio.com",
+        url: "https://xiaochenabc123.test.com",
         tags: ["小陈", "hallo", "chenjunlin"],
         likes: 
     })
@@ -155,7 +155,7 @@ db.test.find()
     db.test.update({
         title: "小陈的辣鸡屋",
         tags: ["小陈", "hallo", "chenjunlin"],
-    },{$set:{"title":"hallo 小陈的辣鸡屋",tags: ["小陈", "hallo", "chenjunlin","cjlio.com"]}},{"upsert": true})
+    },{$set:{"title":"hallo 小陈的辣鸡屋",tags: ["小陈", "hallo", "chenjunlin","xiaochenabc123.test.com"]}},{"upsert": true})
 
 
 更新数据（主键存在则更新，不存在则插入）
@@ -165,7 +165,7 @@ db.test.find()
         "title": "小陈的辣鸡屋", 
         "description": "小陈辣鸡屋",
         "by": "小陈的辣鸡屋",
-        "url": "https://cjlio.com",
+        "url": "https://xiaochenabc123.test.com",
         "tags": ["小陈", "hallo", "chenjunlin"],
         "likes": 666
     })

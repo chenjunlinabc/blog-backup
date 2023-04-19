@@ -22,19 +22,19 @@ urllib.request提供了最基本的http请求方法，主要带有处理授权�
 
 模拟浏览器发送get请求，就需要使用request对象，在该对象添加http头
 import urllib.requst
-response = urllib.request.urlopen('https://cjlio.com/')
+response = urllib.request.urlopen('https://xiaochenabc123.test.com/')
 print(response.read().decode('utf-8'))
 
 使用type()方法
 import urllib.requst
-response = urllib.request.urlopen('https://cjlio.com/')
+response = urllib.request.urlopen('https://xiaochenabc123.test.com/')
 print(type(response))
 
 HTTPResposne类型对象
 
 通过status属性获取返回的状态码
 import urllib.requst
-response = urllib.request.urlopen('https://cjlio.com/')
+response = urllib.request.urlopen('https://xiaochenabc123.test.com/')
 print(response.status)
 print(response.getheaders())
 
@@ -47,7 +47,7 @@ print(response.read())
 
 timeout参数用于设置超时时间，单位为秒
 import urllib.request
-response = urllib.request.urlopen('https://cjlio.com/',timeout=1)
+response = urllib.request.urlopen('https://xiaochenabc123.test.com/',timeout=1)
 
 这里设置超时时间为1秒，如果超了1秒，服务器依然没有响应就抛出URLError异常，可以结合try和except
 
@@ -61,7 +61,7 @@ response = urllib.request.urlopen('https://cjlio.com/',timeout=1)
 
     import urllib.parse
     import urllib.request
-    url = "https://cjlio.com/"
+    url = "https://xiaochenabc123.test.com/"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62'}
     data = urllib.request.Request(url=url, headers=headers)
@@ -81,10 +81,10 @@ response = urllib.request.urlopen('https://cjlio.com/',timeout=1)
 
     #urllib.request.urlretrieve(url,data.html)
 
-    #url_img = "https://cjlio.com/1.jpg"
+    #url_img = "https://xiaochenabc123.test.com/1.jpg"
     #urllib.request.urlretrieve(url_img,abc.jpg)
 
-    #url_mp4 = "https://cjlio.com/1.mp4"
+    #url_mp4 = "https://xiaochenabc123.test.com/1.mp4"
     #urllib.request.urlretrieve(url_img,xyz.mp4)
 
 
@@ -172,9 +172,9 @@ response = urllib.request.urlopen('https://cjlio.com/',timeout=1)
     # 查找内容
     # list = html_data.xpath('//a[text()="小陈的辣鸡屋"]/text()')
     # 多属性匹配(和)
-    # list = html_data.xpath('//li[contains(@id, "a") and @href="https://cjlio.com"]/a/text()')
+    # list = html_data.xpath('//li[contains(@id, "a") and @href="https://xiaochenabc123.test.com"]/a/text()')
     # 或者
-    # list = html_data.xpath('//li[contains(@id, "a") | @href="https://cjlio.com"]/a/text()')
+    # list = html_data.xpath('//li[contains(@id, "a") | @href="https://xiaochenabc123.test.com"]/a/text()')
     # 查找指定顺序的
     # list = html_data.xpath('//a[1]/text()') #获取第一个，可以指定第几个
     # list = html_data.xpath('//a[last()]/text()') #获取最后一个
@@ -183,7 +183,7 @@ response = urllib.request.urlopen('https://cjlio.com/',timeout=1)
     # print(list)
     
     #实例：获取logo和logo的url
-    #url = "https://cjlio.com"
+    #url = "https://xiaochenabc123.test.com"
     #headers = {
     #    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62'
     #}
@@ -210,7 +210,7 @@ response = urllib.request.urlopen('https://cjlio.com/',timeout=1)
     #    page2 = int(input("结束"))
     #
     #    for page in range(page1, page2 + 1):
-    #        urldata = "https://cjlio.com/archives/" + str(page) + ".html"
+    #        urldata = "https://xiaochenabc123.test.com/archives/" + str(page) + ".html"
     #        #print(urldata)
     #        request = urllib.request.Request(url=urldata, headers=headers)
     #        response = urllib.request.urlopen(request)
@@ -397,7 +397,7 @@ pip install selenium
     from selenium import webdriver
     path = "浏览器驱动路径"
     driver = webdriver.Chrome(path)
-    url = "https://cjlio.com"
+    url = "https://xiaochenabc123.test.com"
     driver.get(url)
     data = driver.page_source
     print(data)
@@ -502,7 +502,7 @@ phantomjs操作方式一样
     driver = webdriver.PhantomJS(path)
 
 
-因为没有界面，访问网页是没有界面的，需要通过快照获取，driver.save_screenshot("cjlio.com.jpg")
+因为没有界面，访问网页是没有界面的，需要通过快照获取，driver.save_screenshot("xiaochenabc123.test.com.jpg")
 
 
 
@@ -516,9 +516,9 @@ Headless Chrome是基于Chrome 59版本以及以上版本的无界面模式（ma
     path = "Chrome.exe" # Chrome浏览器的路径
     chrome_options.binary_location = path
     driver = webdriver.Chrome(chrome_options=chrome_options) # 实例化
-    url = "https://cjlio.com"
+    url = "https://xiaochenabc123.test.com"
     driver.get("url")
-    driver.save_screenshot("cjlio.com.jpg")
+    driver.save_screenshot("xiaochenabc123.test.com.jpg")
 
 
 具体操作方法和selenium一样
@@ -542,7 +542,7 @@ pip install requests
 使用方式很简单
 
     import requests
-    url = "https://cjlio.com"
+    url = "https://xiaochenabc123.test.com"
     response = requests.get(url)
     response.status_code # 200 返回状态码
     print(type(response)) # 返回类型
@@ -574,7 +574,7 @@ post请求
 post请求不需要考虑编解码，不需要考虑请求对象
 
     data = {
-        'url': 'cjlio.com',
+        'url': 'xiaochenabc123.test.com',
         'name': 'root'
     }
     url = "https://httpbin.org/post"
@@ -644,7 +644,7 @@ spider爬虫程序（/spiders目录下）
 
 快速创建一个基础scrapy爬虫程序
 
-scrapy genspider cjlio cjlio.com
+scrapy genspider cjlio xiaochenabc123.test.com
 
 
 
@@ -652,8 +652,8 @@ scrapy genspider cjlio cjlio.com
     
     class CjlioSpider(scrapy.Spider):
         name = 'cjlio'
-        allowed_domains = ['cjlio.com'] # 过滤爬取的URL，不在此范围内的域名会被过滤掉
-        start_urls = ['http://cjlio.com/']
+        allowed_domains = ['xiaochenabc123.test.com'] # 过滤爬取的URL，不在此范围内的域名会被过滤掉
+        start_urls = ['http://xiaochenabc123.test.com/']
     
         def parse(self, response):
             content = response.text
@@ -691,7 +691,7 @@ pip install ipython
 
 调试例子（不需要进入Python环境，可以直接在终端中调试）
 
-scrapy shell cjlio.com
+scrapy shell xiaochenabc123.test.com
 
 response.text
 
@@ -713,8 +713,8 @@ cjlio.py（爬虫程序）
     import scrapy
     class CjlioSpider(scrapy.Spider):
         name = 'cjlio'
-        allowed_domains = ['cjlio.com']
-        start_urls = ['http://cjlio.com/']
+        allowed_domains = ['xiaochenabc123.test.com']
+        start_urls = ['http://xiaochenabc123.test.com/']
         def parse(self, response):
             content = response.text
             name = content.xpath("xpath匹配").extract_first()
@@ -771,7 +771,7 @@ spiders爬虫程序
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62'
     }
-    url = "https://cjlio.com"
+    url = "https://xiaochenabc123.test.com"
     yield scrapy.Request(
         url=url,
         headers=headers

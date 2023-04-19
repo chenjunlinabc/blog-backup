@@ -1,6 +1,6 @@
 ---
 title: "Pinia---vuejs的轻量级状态管理库"
-categories: [ "默认" ]
+categories: [ "技术" ]
 tags: [ "vuejs","Pinia" ]
 draft: false
 slug: "124"
@@ -119,3 +119,14 @@ Actions操作state（同步异步都可以使用Actions）
             }
         }
     })
+
+
+
+    import { useStore } from "./Test.vue"
+    const Store = useStore()
+    Store.countPlusOne()
+    Store.countPlus(3)
+    Store.counter = 100
+
+
+Actions创建的钩子，可以在各种事件，生命周期中进行触发

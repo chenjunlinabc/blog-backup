@@ -1084,13 +1084,13 @@ user:adminage:22pass:abc12345
         d.age = 20
         d.pass = "123456789"
         var datamain DataMain
-        datamain.email = "a@cjlio.com"
+        datamain.email = "a@xiaochenabc123.test.com"
         datamain.phone = "18888888888"
         d.datamain = datamain
         fmt.Printf("%#v", d)
     }
 
-输出结果为main.Data{user:"xiaochen", age:20, pass:"123456789", datamain:main.DataMain{email:"a@cjlio.com", phone:"18888888888"}}
+输出结果为main.Data{user:"xiaochen", age:20, pass:"123456789", datamain:main.DataMain{email:"a@xiaochenabc123.test.com", phone:"18888888888"}}
 
 嵌套结构体可能出现字段名相同，go默认先从父结构体查找，如果没有再到子结构体中查找，这时如果子结构体存在相同的字段，会报错，因为不知道该设置哪个字段（所以字段名要全局唯一）
 
@@ -1120,7 +1120,7 @@ user:adminage:22pass:abc12345
         var data = Data{
             user: "root",
             DataMain: DataMain{
-                email: "a@cjlio.com",
+                email: "a@xiaochenabc123.test.com",
             },
         }
         data.datamax();

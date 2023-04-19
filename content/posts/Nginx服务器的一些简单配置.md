@@ -23,11 +23,11 @@ ssl_certificate_key"key证书的绝对路径";
 
     server{
         listen 80;
-        server_name cjlio.com;
+        server_name xiaochenabc123.test.com;
         rewrite ^(.*) https://$host$1 permanent;
     }
 
-\# 当使用80端口访问网站时，将301永久重定向到https://cjlio.com，达到全站https的效果
+\# 当使用80端口访问网站时，将301永久重定向到https://xiaochenabc123.test.com，达到全站https的效果
 
 然后刷新一下配置nginx -s
 
@@ -42,7 +42,7 @@ nginx反向代理配置
 配置nginx.conf
 
     location / {
-        proxy_pass https://test.cjlio.com;   # 反向代理服务器地址
+        proxy_pass https://test.xiaochenabc123.test.com;   # 反向代理服务器地址
         proxy_connect_timeout 200;  # 设置连接超时
         proxy_read_timeout 200;  #  设置读响应超时
     }
@@ -50,7 +50,7 @@ nginx反向代理配置
 重启Nginx服务：service nginx restart
 
 
-请求当前服务器时，当前服务器将请求转发给地址为 https://test.cjlio.com 的服务器处理
+请求当前服务器时，当前服务器将请求转发给地址为 https://test.xiaochenabc123.test.com 的服务器处理
 
 
 ---

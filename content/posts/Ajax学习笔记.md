@@ -9,7 +9,7 @@ date: "2021-07-03 15:30:00"
 
 ajax是浏览器提供的一套方法，可以实现页面无刷新更新数据
 
-关于XMLHttpRequest对象（构造函数）的用法：https://cjlio.com/archives/14.html
+关于XMLHttpRequest对象（构造函数）的用法：https://xiaochenabc123.test.com/archives/14.html
 
 
 ajax需要网站环境下生效，需要web服务器，nodemon

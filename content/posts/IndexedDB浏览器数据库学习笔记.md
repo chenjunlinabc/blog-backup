@@ -82,7 +82,7 @@ createIndex()，三个参数分别是索引名称，索引的属性，配置对�
         var tp = event.target.result;
         var transaction = tp.transaction(['abc'], 'readwrite');
         var objadd = transaction.objectStore('abc');
-        objadd.add({id: 1,name: 'a', email: "a@cjlio.com"});
+        objadd.add({id: 1,name: 'a', email: "a@xiaochenabc123.test.com"});
     }   
 
  
@@ -102,9 +102,9 @@ versionchange：数据库版本变化
 
 
     var arrdata = [
-        {id: 1,name: 'a', email: "a@cjlio.com"},
-        {id: 2,name: 'b', email: "b@cjlio.com"},
-        {id: 3,name: 'c', email: "c@cjlio.com"}
+        {id: 1,name: 'a', email: "a@xiaochenabc123.test.com"},
+        {id: 2,name: 'b', email: "b@xiaochenabc123.test.com"},
+        {id: 3,name: 'c', email: "c@xiaochenabc123.test.com"}
     ];
     datadb.onsuccess = function (event) {
         console.log("数据库添加成功");
@@ -177,7 +177,7 @@ versionchange：数据库版本变化
         var tp = event.target.result;
         var transaction = tp.transaction(['abc'], 'readwrite');
         var objadd = transaction.objectStore('abc');
-        objadd.put({id: 1,name: 'hallo', email: "abc@cjlio.com"})
+        objadd.put({id: 1,name: 'hallo', email: "abc@xiaochenabc123.test.com"})
     }   
 
 

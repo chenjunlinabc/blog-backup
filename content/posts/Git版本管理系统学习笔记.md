@@ -27,10 +27,10 @@ https://github.com/git/git/releases
 方便git管理，记录每一个修改了Git仓库的人，设置用户名和邮箱
 
 git config --global user.name "chenjunlin"
-git config --global user.email "a@cjlio.com"
+git config --global user.email "a@xiaochenabc123.test.com"
 
 
-ssh-keygen -t rsa -C "a@cjlio.com" # 生成ssh密钥
+ssh-keygen -t rsa -C "a@xiaochenabc123.test.com" # 生成ssh密钥
 
 
 mkdir learngit #创建一个空目录
@@ -409,7 +409,7 @@ ssh key
 
 生成ssh key
 
-ssh-keygen -t rsa -b 4096 -C "a@cjlio.com"
+ssh-keygen -t rsa -b 4096 -C "a@xiaochenabc123.test.com"
 
 如果是windows，会在C:\Users\用户名文件夹\.ssh下
 

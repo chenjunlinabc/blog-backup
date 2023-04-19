@@ -241,7 +241,7 @@ react事件采用了驼峰命名法，比如onClick，onMouseEnter，onFocus，�
         console.log("被点击了")
       }
       render(){
-        return (<a onClick={this.mainClick} href="https://cjlio.com">hallo,react</a>)
+        return (<a onClick={this.mainClick} href="https://xiaochenabc123.test.com">hallo,react</a>)
       }
     }
 

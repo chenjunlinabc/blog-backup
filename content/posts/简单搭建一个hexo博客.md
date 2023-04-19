@@ -186,9 +186,9 @@ length: 150
 
 部署到Github
 git config --global user.name "chenjunlinabc"
-git config --global user.email "a@cjlio.com"
+git config --global user.email "a@xiaochenabc123.test.com"
 
-ssh-keygen -t rsa -C "a@cjlio.com"
+ssh-keygen -t rsa -C "a@xiaochenabc123.test.com"
 
 检查是否连接上github
 

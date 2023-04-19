@@ -13,7 +13,9 @@ TypeScript可以增强IDE的交互和反馈，主流IDE都支持TypeScript
 
 TypeScript实质上就是JavaScript的扩展，JavaScript超集
 
-TypeScript本身并不能在浏览器运行，需要进行编译成JavaScript
+TypeScript具备类型检查，静态类型，JSnext属性和方法，以及还在提案阶段的语法（例如装饰器）
+
+TypeScript本身并不能在浏览器运行，需要进行编译成JavaScript（tsc编译）
 
 
 全局安装typescript
@@ -24,7 +26,7 @@ yarn global add typescript
 
 npm install -g typescript
 
-安装ts-node
+安装ts-node（node不能直接运行ts文件，需要安装ts-node包）
 
 npm install -g ts-node
 
@@ -44,11 +46,17 @@ tsc -v
 
 npx tsc --init
 
-编译阶段去除注释：找到removeComments，设置为true
-
 执行（不加任何参数，这样才能使用tsconfig.json配置文件，tsc默认对当前根目录的ts文件进行编译）
 
 tsc
+
+或者指定编译的文件
+
+tsc ./src/index.ts
+
+tsc ./src/index.ts -t es6 -m cjs
+
+注意：cjs标准只能存在一个顶级导出（mudule.exports）,如果存在其他exports的话会被忽略，因此要么不用mudule.exports，要么只使用一个mudule.exports
 
 编译指定ts文件（在compilerOptions同级）
 
@@ -56,12 +64,7 @@ tsc
 "excclude":["./test.ts"] // 指定不编译哪个ts文件
 
 
-其他配置
 
-rootDir（指定输入目录）
-outDir（指定输出目录）
-allowJs（是否处理js文件）
-checkjs（是否检查js文件的语法）
 
 编译TypeScript文件
 
@@ -672,11 +675,30 @@ enum枚举类型
 
     namespace Test{
         let a = "hallo word";
-        function b(i: number)
+        export function b(i: number){
             return i;
+        }
     }
 
 命名空间的实现原理就是立即执行函数搭配闭包，闭包可以减少全局变量的诞生，而如果进行导出export了，那么该被导出的变量会暴露到全局环境下
+
+可以给函数，class，enum枚举类型声明命名空间（必须在声明函数，class，enum之后使用命名空间）
+命名空间与函数，class，enum枚举类型同名，命名空间将作为补充，例如：
+
+    function Test(){}
+    namespace Test{
+        let a = "hallo word";
+        export function b(i: number){
+            return i;
+        }
+    }
+    console.log(Test.a,Test.b(123))
+
+
+
+命名空间别名
+
+    import test = Test.b
 
 合并命名空间
 
@@ -762,6 +784,8 @@ b.ts
      import Abc form 'Test'
      Abc.test('hallo word')
 
+
+当ts项目需要用到外部库时（例如Jquery），需要提供其类型注解文件，声明其对外的接口，常用的库社区都会提供类型注解文件，一般情况下其类型注解文件都是在该包的源码目录下，如果没有需要进行下载，例如npm i @types/jquery
 
 
 ---
@@ -1265,6 +1289,9 @@ ts允许声明同名接口，新的同名接口的属性将作为新属性（合
         id: 1
     }
 
+注意：接口合并时，非函数类型的属性的类型必须一致，而函数类型的属性将被认为是函数重载，如果使用函数类型的属性时类型不一致，需要提供一个更宽泛的类型（参数和返回值的类型），必须包含其全部类型
+
+合并接口，按照声明的顺序来排，后声明的接口优先级高于前面声明的接口，而接口内部是从上往下排序，但是有个例外，就是当使用字面量作为类型时，使用字面量当类型的属性将会提升到最顶端
 
 也可以利用函数重载（后声明的接口具备更高的优先级，请不要在最后面使用泛型，在后面使用泛型会因为优先级的原因导致后面的类型全是泛型）
 
@@ -1296,10 +1323,45 @@ ts允许声明同名接口，新的同名接口的属性将作为新属性（合
 tsconfig.json配置文件应用
 
 
-tsconfig.json的核心compilerOptions，compilerOptions的主要配置分别为target（指定ts编译的目标。例如ES2020，ES5，ESNext等等），module（设置ts使用的模块化系统，当target为ES3，ES5时，module默认为Commonjs，当target为es6或者更高时，默认值为ES6，支持ES2020，UMD，AMD，System，ESNext，以及None选项），jsx（指定jsx文件转译为js文件的输出方式，只影响.tsx文件的输出，支持react，react-jsx，react-jsxdev，preserve，react-native），incremental（表示是否启动增量编译，如果为true时，会将上次编译的工程图信息存储在磁盘上），declaration（表示是否为项目的ts或者js文件生成.d.ts文件），sourceMap（是否生成sourcemap文件，sourcemap文件将以.js.map或者.jsx.map的形式被生成与.js文件或者.jsx文件同级目录下，sourcemap文件可以允许调试器和其他工具在生成js文件时，显示原来的ts代码），lib（控制lib.d.ts声明文件的库定义文件，）
+rootDir（指定输入目录）
+outDir（指定输出目录）
+allowJs（是否处理js文件）
+checkjs（是否检查js文件的语法）
 
 
-开启严格模式，strict，为true时
+tsconfig.json的核心compilerOptions，compilerOptions的主要配置分别为target（指定ts编译的目标。例如ES2020，ES5，ESNext等等），module（设置ts使用的模块化系统，当target为ES3，ES5时，module默认为Commonjs，当target为es6或者更高时，默认值为ES6，支持ES2020，UMD，AMD，System，ESNext，以及None选项），jsx（指定jsx文件转译为js文件的输出方式，只影响.tsx文件的输出，支持react，react-jsx，react-jsxdev，preserve，react-native），incremental（表示是否启动增量编译，如果为true时，会将上次编译的工程图信息存储在磁盘上），declaration（表示是否为项目的ts或者js文件生成.d.ts文件，如果需要指定声明文件存储位置，可使用declarationDir属性指定目录，如果只想生成声明文件则可以开启emitDeclarationOnly属性，开启该属性，将不会生成js文件，只生成声明文件，设置声明文件目录，可使用typeRoots属性，该属性默认值为node_modules/@types，这个属性值为数组，可传入1个或者多个声明文件目录，如果只想使用指定声明文件，则可以使用types属性，这个属性值也是一个数组，只有包含在内的声明文件才能被加载引用），sourceMap（是否生成sourcemap文件，sourcemap文件将以.js.map或者.jsx.map的形式被生成与.js文件或者.jsx文件同级目录下，sourcemap文件可以允许调试器和其他工具在生成js文件时，显示原来的ts代码，如果需要生成inlineSourceMap格式的map文件，则需要开启inlineSourceMap属性，这个属性不能与sourceMap属性一起用，声明文件也想生成sourceMap文件，开启declarationMap属性即可），lib（控制lib.d.ts声明文件的库定义文件）
+
+如果需要开启输出诊断信息，则true一下diagnostics属性，会输出编译时的信息，例如编译时间（Total time）
+
+allowUmdGlobalAccess，是否允许在模块中以全局变量的方式来访问UMD模块
+
+moduleResolution，模块解析的策略，默认为node（相对，非相对导入模块），还有classic策略（该策略，相对导入会解析同级目录下的ts，.d.ts文件，非相对导入会通过node_modules目录来查找模块，如果本级没有，会向上级查找，该模式可用于AMD，System，ES2015模块标准）
+
+
+如果开启了incremental增量编译，会生成一个tsconfig.tsbuildinfo的文件，这个文件是增量编译的依赖文件，如果需要指定增量编译的依赖文件的存储位置，可以使用tsBuildInfoFile属性
+
+outFile属性是将多个互相依赖的文件整合成一个文件，一般用于AMD模块标准中，属性值是被整合成的文件名以及路径
+
+
+编译阶段去除全部注释：使用removeComments属性，设置为true
+
+如果编译阶段不想输出文件（就是只编译不生成），可开启noEmit属性
+
+如果想编译阶段发生错误时不输出文件，可开启noEmitOnErrot属性
+
+如果在编译时不生成helper工具函数，可开启noEmitHelpers属性，并且搭配ts-helpers包使用（如果不搭配该包使用，会导致__extends方法未定义），也可以搭配importHelpers属性使用，开启该属性会使用tslib来引入helper函数（tslib就包含了__extends方法），但是这个文件必须模块，helper工具函数会增加文件体积
+
+
+如果想ES3或者ES5使用迭代器（降级使用迭代器），可开启downlevelIteration属性，例如扩展符的实现支持是通过helper工具函数的__spread方法来完成的
+
+开启严格模式，strict，为true时， alwaysStrict（是否对代码注入use strict），noImplicitAny（是否不允许隐式的any类型，开启后必须有类型注解），strictNullChecks（是否不允许将null，undefined赋值给其他类型的变量），strictFunctionTypes（是否不允许函数参数双向协变），strictBindCallApply（是否使用严格的bind，call，apply检查，开启后bind，call，apply的指向不能为空（undefined，null），并且严格按照类型传值），strictPropertyInitialization（类的实例属性是否必须初始化，开启后必须对类的实例进行初始化），noImplicitThis（是否不允许this存在隐式的any类型，由于ts对this类型检查不好，因此会对this使用any类型，开启后this将不允许存在any类型）属性都将默认为true
+
+如果还需要额外的进行检查，可开启noUnusedLocals（是否不允许存在只声明，但是不使用的局部变量），noUnusedParameters（是否不允许未使用的函数参数），noImplicitReturns（函数中是否必须要有返回值），noFallthroughCasesInSwitch（是否不允许switch语句的case贯穿（fallthrough错误））属性
+
+switch语句的case贯穿：当switch语句没有break时，switch语句会依次执行
+
+
+
 
 模块解析策略，moduleResolution，当mould配置为AMD，UMD，System，ES6时，默认为classic，否则为node
 
@@ -1309,13 +1371,17 @@ tsconfig.json的核心compilerOptions，compilerOptions的主要配置分别为t
 
     "paths": {
           "@src/*": ["src/*"],
-          "@test/*": ["src/test/*"]
+          "test": ["src/test/test.ts"]
       }
       ...
-      import test from '@test/main'
+      import test from 'test'
 
 
-指定多个目录作为根目录，rootDirs，允许编译器在这些目录中解析相对于的模块导入
+指定多个目录作为根目录（创建一个虚拟目录），rootDirs，允许编译器在这些目录中解析相对于的模块导入，例如：
+
+    'rootDirs': ['src','build']
+
+这个将表示src目录和build目录属于同一个虚拟目录，如果build目录存在依赖，但是ts源码文件在src目录下，需要使用build目录的依赖时，可以使用这个，不需要编译后再修改依赖路径
 
 指定类型文件的根目录，typeRoots，默认node_modules/@types下的包都是可见的，如果指定了typeRoots将表示从该目录里查找类型文件
 
@@ -1325,12 +1391,19 @@ tsconfig.json的核心compilerOptions，compilerOptions的主要配置分别为t
     "types": ['node','jest','express']
 
 
+如果想在编译阶段打印输出的文件，可开启listEmittedFiles属性
+
+如果想在编译阶段打印进行编译的文件（其中包括引用的声明文件），可开启listFiles属性
+
+
 allowSyntheticDefaultImports表示是否允许默认导出，当为true时表示一个模块没有默认导出，也认为其他模块也能像默认导出一样导入使用该模块
 
 
 
 esModuleInterop表示是否开启ES模块的互操作，可以使用ES模块的方式导入Commonjs包，当模块没有类型时，可直接require()方式引用，如果具备类型声明，那么需要使用import的方式导入，开启该选项，会默认开启allowSyntheticDefaultImports
 
+
+开启esModuleInterop属性，将允许export = xxx的形式导出，并且使用import = xxx 的方式导入
 
 sourceRoot表示指定调试器需要定位的ts文件位置，而不是相对于源文件的路径
 

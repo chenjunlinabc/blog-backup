@@ -1,5 +1,5 @@
 ---
-title: "简单使用Nginx"
+title: "简单使用Nginx HTTP服务器软件"
 categories: [ "技术" ]
 tags: [ "nginx" ]
 draft: false
@@ -262,6 +262,7 @@ proxy_cache_path /data/cache levels=1:2 keys_zone=oncache:10m max_size=10g inact
 
 /data/cache是缓存目录，levels是缓存目录的优先级，例如1:2（二级目录），表示/data是一级目录，/cache是二级目录，keys_zone是定义共享内存区的名称和大小（oncache是名称，10m是内存区的大小），max_size是缓存的最大大小，inactive表示该缓存不在该指定时间内被访问，将从缓存中删除
 
+proxy_cache_path的上下文是http段
 
 ---
 
@@ -304,8 +305,139 @@ openssl.exe s_client -connect https://test.xiaochenabc123.test.com:443 -status
 
 
 
+---
 
 
 
 
 
+
+nginx负载均衡（将请求转发给多个服务端去执行，每个服务端的任务一般是一样的）
+
+nginx配置
+
+    upstream test_server{
+        server 198.168.1.2:81 weight=10 max_conns=3000 fail_timeout=10s max_fails=3; #权重为10（默认为1，指定该上游服务端的最大并发连接数为1000，在10秒内判断2次上游服务端不可用时，将在这10秒内不进行请求转发
+        server 198.168.1.3:82 weight=1 max_conns=500 fail_timeout=10s max_fails=2;
+        server 198.168.1.4:83 weight=5 max_conns=1000 fail_timeout=10s max_fails=2 backup; # backup，备用服务端标记，只有当其他服务端不可用时才进行请求转发，down，标记是离线服务端，不会进行请求转发
+        server 198.168.1.5:80 weight=5 max_conns=1000 fail_timeout=10s max_fails=2;
+        server 198.168.1.6:8080 weight=10 max_conns=2000 fail_timeout=10s max_fails=2;
+        server 198.168.1.7:85 weight=5 max_conns=1000 fail_timeout=10s max_fails=2 down;
+        server test1.xiaochenabc123.test.com:5000 weight=20 max_conns=5000 fail_timeout=10s max_fails=5;
+        keepalive 32; # worker子进程与上游服务端空闲的长连接数为32
+        keepalive _requests 50; # 每个长连接最多只能处理50个HTTP请求（默认值为100）
+        keepalive _timeout 30s; #nginx与上游服务端空闲长连接的最长生存时间，默认为60秒
+    }
+    server{
+        listen 80;
+        server_name test.xiaochenabc123.test.com
+        location /test/ {
+            proxy_pass http://test_server;
+        }
+    }
+
+
+测试
+
+curl test.xiaochenabc123.test.com
+
+
+
+负载均衡算法
+
+
+哈希算法（根据某些参数来决定，只有参数不变时将一直使用该代理服务）
+
+    upstream test_server1{
+        hash $request_uri; # 当uri不发送改变，那么负责处理该请求的上游服务端将会一直不变，也可以是其他参数
+        server 198.168.1.2:80;
+        server 198.168.1.3:80;
+    }
+
+
+ip_hash算法
+
+
+    upstream test_server1{
+        ip_hash; # 根据ip来决定，如果ip不发生改变，将一直使用该代理服务
+        server 198.168.1.2:80;
+        server 198.168.1.3:80;
+    }
+
+
+最少连接数算法
+
+
+    upstream test_server1{
+        zone testserver 10M; # 创建共享内存，通过共享内存来让全部的worker子进程对负载均衡策略生效，上游服务的状态数据都存放在该功能内存中
+        least_conn; # 选择连接数最少的服务端，并且对该服务端进行加权，让它能够获取更多连接
+        server 198.168.1.2:80;
+        server 198.168.1.3:80;
+    }
+
+
+
+---
+
+
+
+性能优化
+
+worker子进程数，worker_processes 8;
+
+worker子进程与CPU核心绑定，如果是4个CPU核心，worker_cpu_affinity 0001 0010 0100 1000;
+
+worker子进程与CPU核心绑定的好处：更好的利用CPU核心内部的一级缓存，二级缓存（增加缓存命中率）
+
+位数表示使用多少个核心，个数为多少个进程，如果是0101 1010，将表示4个核心，使用2个进程
+
+设置worker子进程的优先级，worker_priority -20;
+
+提高worker子进程的优先级，可以分配更大的CPU时间片，让worker子进程更优先的进行工作
+
+优先级为-20到19，值越小优先级越高
+
+延迟处理新连接的请求，listen 80 deferred;
+
+
+deferred表示在3次握手中，检测到客户端进行http请求数据时，tcp状态才设置连接成功（tcp连接成功会唤醒nginx进程，如果没有请求数据，只进行连接TCP，完全没有必要nginx进程），否则丢弃
+
+
+
+
+
+---
+
+
+
+
+优化TCP连接
+
+当nginx作为中间件时，向上游服务获取数据时，需要进行TCP连接，对下游客户端也是需要进行TCP连接
+
+以下配置都是要用到/etc/sysctl.conf的系统控制文件，这个文件是配置内核参数等信息的
+
+
+net.ipv4.tcp_syn_retries = 6，这个设置决定了上游（上游一直没有返回SYN+ACK包）在TCP连接中超时，最多重发多少次SYN包，在Linux下默认为6，并且TCP连接超时为127秒，这个值越小，认定TCP连接超时的时间越短，认定TCP连接超时会关闭连接（占用TCP连接会消耗CPU和内存）
+
+net.ipv4.tcp_synack_retries = 5，这个设置决定了SYN+ACK确认包的重发次数，默认为5，这个值越小，认定TCP连接超时的时间越短
+
+net.ipv4.tcp_syncookies = 1，1为开启tcp_syncookies，在进行TCP第一次握手时，如果syn_backlog队列满了，会丢弃SYN包，开启tcp_syncookies将不会丢弃，而是使用syncookie进行握手
+
+net.core.netdev_max_backlog = 262144，决定能接收数据包的最大长度队列
+
+net.core.somaxconn = 128，决定同时发起的TCP连接数，默认为128，可以调高该值，避免连接超时或者重传
+
+net.ipv4.tcp_max_orphans = 16384，决定孤立连接（主动断开方关闭进程，表示进程与这个连接没有关系了，就成了孤立连接，也就是FIN_WAIT1状态）的最大数量，当孤立连接超过该值，后续新增的孤立连接将不会走4次挥手流程，而是直接通过发送RST报文来强制关闭连接
+
+net.ipv4.tcp_max_syn_backlog = 128，决定处于SYN_RECV状态的TCP连接数（第二次握手，服务端发送SYN确认包后），超过设置数会丢弃第三次的SYN报文
+
+net.ipv4.tcp_abort_on_overflow = 1，决定了TCP连接建立完成后，如果backlog队列满了，TCP连接将回退到SYN+ACK状态，开启该设置，会发送RST包给客户端，进行终止该词连接，如果没有必要请勿开启
+
+net.ipv4.ip_local_port_range = 32768 61000，限制服务端对外和本地的端口范围（每个TCP连接都需要占用一个本地的端口，如果本地端口满了，将无法创建新的TCP连接）
+
+net.ipv4.tcp_tw_reuse = 1，复用TIME_WAIT状态的连接，开启这个可以快速复用TIME_WAIT状态的连接
+
+net.ipv4.tcp_fastopen = 1，TFO功能，开启该功能会在三次握手时，发送syn包给上游，上游根据ip生成cookie，并且和syn+ack一起发送给下游（下游缓存这个cookie），下游与上游进行第二连接时，发送syn包给上游会携带这个cookie，上游验证后发送SYN-ACK包，就可以发送数据（数据在SYN包中），省去第三次握手，下游发送ACK确认上游的数据，如果cookie无效，将会丢弃SYN包中的数据，发送正常的SYN-ACK包，并且完成第三次握手，进行TFO功能的TCP连接依赖于这个cookie
+
+/etc/sysctl.conf配置生效可以使用sysctl -p命令

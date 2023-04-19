@@ -11,15 +11,15 @@ webpack作为模块加载和打包神器
 
 安装node就有npm了，用npm安装webpack
 
-npm i webpack -g 安装全局的webpack
+npm i webpack webpack-cli -g 安装全局的webpack
 
 到项目目录下，npm init -y 初始化模块
 
-npm i webpack -D 安装项目局部的webpack，-D是--save-dev的意思
+npm i webpack webpack-cli -D 安装项目局部的webpack，-D是--save-dev的意思，推荐使用
 
 webpack 入口文件名 最后输出到哪个文件的文件名，例如：
 
-webpack A.js B.js
+npx webpack A.js B.js
 
 那么就会编译A.js，输出到B.js
 
@@ -36,7 +36,7 @@ document.write(require("./C.js"));
 
 再打包一次
 
-webpack A.js B.js
+npx webpack A.js B.js
 
 会出现一个C.js
 

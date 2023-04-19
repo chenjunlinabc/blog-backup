@@ -44,16 +44,16 @@ navigator包含了当前浏览器的全部信息
 location表示当前浏览器地址信息，可以用来跳转到指定地址，获取当前页面的地址等等，例如：
 
     console.log(window.location)
-    const urlData = "https://cjlio.com/;
+    const urlData = "https://xiaochenabc123.test.com/;
     window.location.href = urlData;
 
 这个也可以实现跳转
 
-    window.location.assign("https://cjlio.com")
+    window.location.assign("https://xiaochenabc123.test.com")
 
 这个也可以实现跳转，不过这个不会生成历史记录，是直接用这个页面来替换当前页面
 
-    window.location.replace("https://cjlio.com")
+    window.location.replace("https://xiaochenabc123.test.com")
 
 
 reload方法可以重载页面，加上true参数将强制更新
@@ -550,7 +550,7 @@ jsonp跨域，例如：
 
     let script = document.createElement('script')
     script.type = 'text/javascript'
-    script.src = 'https://test.cjlio.com/test.js'
+    script.src = 'https://test.xiaochenabc123.test.com/test.js'
     document.head.appendChild(script)
 
 node跨域
@@ -558,7 +558,7 @@ node跨域
     app.all('*', function(req, res, next) {
         console.log(req.method);
         res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Origin", "https://test.cjlio.com");
+        res.header("Access-Control-Allow-Origin", "https://test.xiaochenabc123.test.com");
         res.header('Access-Control-Allow-Headers', 'Content-type');
         res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS,PATCH");
         res.header('Access-Control-Max-Age',1728000);
@@ -638,7 +638,7 @@ path可以限制服务端哪个路径下可以访问到该cookie（安全）
         response.writeHead(200,{
             'Content-Type': 'text/plain',
             'Set-Cookie': 'id=abc'
-            // 'Set-Cookie': ['id=abc; max-age=5','pass=123; HttpOnly Secure=true','age=20; Domain=test.cjlio.com; path=/testWeb/']
+            // 'Set-Cookie': ['id=abc; max-age=5','pass=123; HttpOnly Secure=true','age=20; Domain=test.xiaochenabc123.test.com; path=/testWeb/']
         })
         response.end("hallo nodejs")
     }).listen(8888)
@@ -670,7 +670,7 @@ Content-Security-Policy（内容安全策略，CSP）
         res.writeHead(200, {
             'Content-Type': 'text-html',
             'Content-Security-Policy': 'default-src http: https:' 
-            // 'Content-Security-Policy': 'default-src \'self\' http://test.cjlio.com; form-action \'self\'; report-uri https://testreport.cjlio.com; report-to reportTest' 
+            // 'Content-Security-Policy': 'default-src \'self\' http://test.xiaochenabc123.test.com; form-action \'self\'; report-uri https://testreport.xiaochenabc123.test.com; report-to reportTest' 
         });
 
 
@@ -687,15 +687,15 @@ report-to配置
         "group": "reportTest",
         "max_age": 10886400,
         "endpoints": [
-            { "url": "https://reports.cjlio.com" },
-            { "url": "https://test.cjlio.com/reports" }
+            { "url": "https://reports.xiaochenabc123.test.com" },
+            { "url": "https://test.xiaochenabc123.test.com/reports" }
         ]
     },{ 
         "group": "reportTestA",
         "max_age": 10886400,
         "endpoints": [
-            { "url": "https://reportsA.cjlio.com" },
-            { "url": "https://test.cjlio.com/reportsA" }
+            { "url": "https://reportsA.xiaochenabc123.test.com" },
+            { "url": "https://test.xiaochenabc123.test.com/reportsA" }
         ]
     },
 
@@ -704,7 +704,7 @@ report-to配置
 如果发生违规情况，但是又不想强制限制资源的加载，只想记录违规情况的时候，可以使用Content-Security-Policy-Report-Only
 
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://test.cjlio.com; form-action 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://test.xiaochenabc123.test.com; form-action 'self'">
 
 ---
 
@@ -964,7 +964,7 @@ setTimeout定时器最小延迟时间为4ms，在4ms以内的定时都将视为�
     console.log('abcabc')
 
 
-
+setTimeout()方法的返回值是整数，这个整数是该定时器的编号，可通过clearTimeout()方法来取消该定时器，例如clearTimeout(123)，假设该定时器编号为123
 
 
 ---
@@ -1396,12 +1396,12 @@ Chrome浏览器默认缓存60秒，如果之间访问过了该域名，那么在
 开启DNS预解析
 <meta http-equiv="x-dns-prefetch-control" content="on"/> 
 
-尝试对a.cjlio.com域名做预解析（不能用来对当前域名做预解析，因为当得到这个资源时，早就得到当前域名的解析IP）
-<link rel="dns-prefetch" href="https://a.cjlio.com"/> 
+尝试对a.xiaochenabc123.test.com域名做预解析（不能用来对当前域名做预解析，因为当得到这个资源时，早就得到当前域名的解析IP）
+<link rel="dns-prefetch" href="https://a.xiaochenabc123.test.com"/> 
 
 预连接
 
-<link rel="preconnect" href="https://a.cjlio.com">
+<link rel="preconnect" href="https://a.xiaochenabc123.test.com">
 
 
 预加载（会提升该资源加载的优先级，加载和执行是不同的，加载完成并不会执行，需要手动执行）
@@ -1418,7 +1418,7 @@ HTTP请求优化：解决请求阻塞（请求阻塞（Stalled）是浏览器为
 
 以目前版本的Chrome浏览器来说，其最大请求数是6个（http1.1），超过6个请求数时，只能等待前面的请求后再进行请求，请求阻塞只针对同一域下的，只需要将资源用不同的域名散列（实质请求数限制将表示为域名数 * 浏览器最大请求数）
 
-例如将某个静态资源服务器，分成多个域名，例如，a.cjlio.com，b.cjlio.com，那么请求数就是可以达到12个
+例如将某个静态资源服务器，分成多个域名，例如，a.xiaochenabc123.test.com，b.xiaochenabc123.test.com，那么请求数就是可以达到12个
 
 
 
