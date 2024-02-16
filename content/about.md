@@ -25,7 +25,7 @@ date: 2022-04-17T22:50:06+08:00
 
 免责声明
 
-本站内容仅供学习和参阅使用，本网站内容仅代表作者本人的观点，内容仅供阅读，如有任何问题，欢迎联系站长（email：xiaochenabc123@qq.com），将会在第一时间为您做相关处理
+本站内容仅供学习和参阅使用，本网站内容仅代表作者本人的观点，内容仅供阅读，如有任何问题，欢迎联系站长（email：chenjunlinabc123@qq.com），将会在第一时间为您做相关处理
 
 
 
@@ -37,7 +37,7 @@ date: 2022-04-17T22:50:06+08:00
 
 偏好语言：JavaScript(TypeScript)，Golang，Python，Rust
 
-APP&小程序：Flutter，Taro
+APP&小程序：Flutter，Taro，Tauri，Wails
 
 家里蹲公司的一名干饭攻城狮
 
@@ -51,17 +51,20 @@ APP&小程序：Flutter，Taro
 
 ---
 
+设备：ThinkBook 14p Gen 2（Windows11操作系统，5800H处理器，16G内存，1TB硬盘）
+
 联系方式：
 
-邮箱：xiaochenabc123@qq.com
+QQ：195551690
 
-GitHub：https://github.com/xiaochenabc123
+邮箱：chenjunlinabc123@qq.com
 
+GitHub：https://github.com/chenjunlinabc
 
 
 ---
 
 
-书籍：
+在看书籍：
 
 GO语言学习笔记，数学之美，深入浅出Docker，GO语言核心编程，JavaScript高级程序设计，深入浅出Nodejs，React进阶之路，Redis实战，深入浅出React和Redux，深入理解TypeScript，前端技术架构与工程，labuladong的算法小抄，算法图解，Python3网络爬虫开发实战，前端架构：从入门到微前端，前端开发核心知识进阶：从夯实基础到突破瓶颈，Vue.js设计与实现，MongoDB进阶与实战:微服务整合、性能优化、架构管理，Angular开发入门与实战，React设计原理
