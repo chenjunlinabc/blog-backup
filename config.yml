@@ -1,4 +1,4 @@
-baseURL: "https://xiaochenabc123.github.io/"
+baseURL: "https://chenjunlinabc.github.io/"
 languageCode: 'zh-cn'
 title: 小陈的个人博客
 paginate: 5
@@ -79,7 +79,7 @@ params:
     - name: github
       url: "https://github.com/xiaochenabc123"
     - name: email
-      url: "mailto:xiaochenabc123@qq.com"
+      url: "mailto:chenjunlinabc123@qq.com"
 
 
 
@@ -99,7 +99,7 @@ params:
     hiddenInSingle: true # hide on single page
 
   editPost:
-    URL: "https://xiaochenabc123.github.io/"
+    URL: "https://chenjunlinabc.github.io/"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 

@@ -70,7 +70,7 @@ hugo server
 
 部署到github pages
 
-hugo  --baseUrl="http://chenjunlinabc.github.io/"
+hugo
 
 如果该命令执行成功，会将静态页面生成到public文件夹中，只需要push该文件夹到github上就好了
 
