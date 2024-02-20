@@ -12,12 +12,12 @@ date: 2022-04-17T22:50:06+08:00
 这是本人的个人博客，分享一些本人学习过程中写的笔记
 
 
-如果文章出现错误或者不正确的地方，欢迎在文章下提出，进行纠正，笔记会根据学习进度来进行更新或者修改
+如果文章出现错误或者不正确的地方，欢迎联系本人的邮箱，进行纠正，笔记会根据学习进度来进行更新或者修改
 
 本站未注明转载的文章均为原创，转载请标明来源
 
 
-本站点基于hugo构建
+本站点基于强大的hugo构建完成
 
 
 ---
@@ -33,11 +33,9 @@ date: 2022-04-17T22:50:06+08:00
 
 自述：
 
-2002年出生，星座：摩羯座
+2002年生人，星座：摩羯座
 
-偏好语言：JavaScript(TypeScript)，Golang，Python，Rust
-
-APP&小程序：Flutter，Taro，Tauri，Wails
+偏好语言：JavaScript(TypeScript)，Python，Golang，Rust，C++
 
 家里蹲公司的一名干饭攻城狮
 
@@ -57,7 +55,7 @@ APP&小程序：Flutter，Taro，Tauri，Wails
 
 QQ：195551690
 
-邮箱：chenjunlinabc123@qq.com
+Email：chenjunlinabc123@qq.com
 
 GitHub：https://github.com/chenjunlinabc
 
