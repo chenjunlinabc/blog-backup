@@ -80,15 +80,15 @@ wsl --list --online
 
 或者
 
-wsl -l -o
+wsl --l --o
 
 安装指定发行版
 
-wsl --install -d Ubuntu
+wsl --install --d Ubuntu
 
 查看本地安装发行版的版本以及状态（Running为正在运行中，为停止运行中）
 
-wsl -l -v
+wsl --l --v
 
 停止运行（启动也很简单，重新执行Ubuntu2004，进入系统，就会启动）
 
@@ -96,7 +96,7 @@ wsl --shutdown
 
 修改默认版本
 
-wsl -s Ubuntu-20.04
+wsl --s Ubuntu-20.04
 
 卸载本地安装的发行版（全部数据都将清除）
 
@@ -122,4 +122,4 @@ wsl --import Ubuntu-20.04 d:\wsl\ubuntu d:\ubuntu20.04.tar
 
 修改默认登陆用户
 
-ubuntu2004 config --default-user root
+ubuntu2004 config --default -user root
