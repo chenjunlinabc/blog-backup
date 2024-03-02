@@ -41,7 +41,7 @@ date: 2022-04-17T22:50:06+08:00
 
 家里蹲公司的一名干饭攻城狮
 
-最喜欢的游戏：CSGO，塞尔达传说：旷野之息，王者荣耀
+最喜欢的游戏：CSGO，塞尔达传说：旷野之息，王者荣耀，火影忍者手游
 
 看完的小说：全职法师，雪鹰领主，吞噬星空，星辰变，牧龙师
 
@@ -60,6 +60,10 @@ QQ：195551690
 Email：chenjunlinabc123@qq.com
 
 GitHub：https://github.com/chenjunlinabc
+
+Twitter：https://twitter.com/chenjunlina
+
+Telegram：https://t.me/zhizheng123
 
 
 ---
